@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>ByonicViewer Output Analyzer</title>
+
+<!--
+
+Template 2102 Constructive
+
+http://www.tooplate.com/view/2102-constructive
+
+-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  
+	<!-- Google web font "Open Sans" -->
+	<link rel="stylesheet" href="{% static 'mysite/css/fontawesome-all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'mysite/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'mysite/css/magnific-popup.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'mysite/slick/slick.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'mysite/slick/slick-theme.css' %}"/>
+	<link rel="stylesheet" href="{% static 'mysite/css/tooplate-style.css' %}">
+
+	<script>
+		var renderPage = true;
+
+	if(navigator.userAgent.indexOf('MSIE')!==-1
+		|| navigator.appVersion.indexOf('Trident/') > 0){
+   		/* Microsoft Internet Explorer detected in. */
+   		alert("Please view this in a modern browser such as Chrome or Microsoft Edge.");
+   		renderPage = false;
+	}
+	</script>
+</head>
+
+<body>
+
+	<div id="loader-wrapper">
+		<div id="loader"></div>
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
+	</div>
+	
+	<!-- Page Content -->
+	<div class="container-fluid tm-main">
+		<div class="row tm-main-row">
+
+			<!-- Sidebar -->
+			<div id="tmSideBar" class="col-xl-3 col-lg-4 col-md-12 col-sm-12 sidebar">
+
+				<button id="tmMainNavToggle" class="menu-icon">&#9776;</button>
+
+				<div class="inner">
+					<nav id="tmMainNav" class="tm-main-nav">
+						<ul>
+							<li>
+								<a href="#N-Glycosylation Analyzer" id="tmNavLink1" class="scrolly active" data-bg-img="{% static 'mysite/img/constructive_bg_01.png' %}" data-page="#tm-section-1">
+									<i class="fas fa-home tm-nav-fa-icon"></i>
+									<span>N-Glycosylation Analyzer</span>
+								</a>	
+							</li>
+							<li>
+								<a href="#Sulfated N-Glycosylation Analyzer" class="scrolly" data-bg-img="{% static 'mysite/img/constructive_bg_02.png' %}" data-page="#tm-section-2">
+									<i class="fas fa-map tm-nav-fa-icon"></i>
+									<span>Sulfated N-Glycosylation Analyzer</span>
+								</a>
+							</li>							
+							<li>
+								<a href="#O-Glycosylation Analyzer" class="scrolly" data-bg-img="{% static 'mysite/img/constructive_bg_03.png' %}" data-page="#tm-section-3">
+									<i class="fas fa-users tm-nav-fa-icon"></i>
+									<span>O-Glycosylation Analyzer</span>
+								</a>
+							</li>
+							<li>
+								<a href="#contact" class="scrolly" data-bg-img="{% static 'mysite/img/constructive_bg_04.png' %}" data-page="#tm-section-4">
+									<i class="fas fa-comments tm-nav-fa-icon"></i>
+									<span>Contact Us</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+
+			<!-- SECOND PART TWEAKING -->
+
+			<div class="col-xl-9 col-lg-8 col-md-12 col-sm-12 tm-content">
+
+					<!-- section 1 -->
+					<section id="tm-section-1" class="tm-section">
+						<div class="ml-auto">
+							<header class="mb-4"><h1 class="tm-text-shadow" style="text-shadow: 0px 0px 10px #FAFAD2; font-size:60px;">N-Glycosylation Analyzer</h1></header>
+							<p class="mb-5 tm-font-big" style="text-shadow: black 0.1em 0.1em 0.2em; font-size:20px;">Please submit an Excel file (.xlsx) converted from ByonicViewer .csv</p>
+
+							<!-- note that this example file link will be broken in Mac due to the dir -->
+							<a href="/media/PEDV_Ingel_1st.xlsx" download>⤓ Download Example File for Submission</a>
+							<br />
+							<br />
+							<br />
+							<!-- <a href="#" class="btn tm-btn tm-font-big" data-nav-link="#tmNavLink2">Continue...</a>  -->
+							<!-- data-nav-link holds the ID of nav item, which means this link should behave the same as that nav item  -->
+							<form method="POST" action="#N-Glycosylation Analyzer" enctype="multipart/form-data">
+								{% csrf_token %}
+
+								<input type="file" name="myFile" style="background-color: #555; color: #fff;">
+								<input type="submit" name="submit">
+							</form>
+
+						</div>
+					</section>
+
+					<!-- section 2 -->
+					<section id="tm-section-2" class="tm-section">
+						<div class="ml-auto">
+							<header class="mb-4"><h1 class="tm-text-shadow" style="text-shadow: 0px 0px 10px #E0FFFF; font-size:60px;">Sulfated N-Glycosylation Analyzer</h1></header>
+							<p class="mb-5 tm-font-big" style="text-shadow: black 0.1em 0.1em 0.2em; font-size:20px;">Please submit an Excel file (.xlsx) converted from ByonicViewer .csv</p>
+							<!-- note that this example file link will be broken in Mac due to the dir -->
+							<a href="/media/PEDV_Ingel_1st.xlsx" download>⤓ Download Example File for Submission</a>
+							<br />
+							<br />
+							<br />
+							<!-- <a href="#" class="btn tm-btn tm-font-big" data-nav-link="#tmNavLink3">Continue...</a>  -->
+							<!-- data-nav-link holds the ID of nav item, which means this link should behave the same as that nav item  -->
+							<form method="POST" action="#Sulfated N-Glycosylation Analyzer" enctype="multipart/form-data">
+								{% csrf_token %}
+
+								<input type="file" name="myFile" style="background-color: #555; color: #fff;">
+								<input type="submit" name="submit">
+							</form>
+						</div>
+					</section>
+
+					<!-- section 3 -->
+					<section id="tm-section-3" class="tm-section">
+						<div class="ml-auto">
+							<header class="mb-4"><h1 class="tm-text-shadow" style="text-shadow: 0px 0px 10px #000000; font-size:60px;">O-Glycosylation Analyzer</h1></header>
+							<p class="mb-5 tm-font-big" style="text-shadow: 0px 0px 10px #000000; font-size:20px;">Please submit an Excel file (.xlsx) converted from ByonicViewer .csv</p>
+							<!-- note that this example file link will be broken in Mac due to the dir -->
+							<a href="/media/PEDV_Ingel_1st.xlsx" download>⤓ Download Example File for Submission</a>
+							<br />
+							<br />
+							<br />
+							<!-- <a href="#" class="btn tm-btn tm-font-big" data-nav-link="#tmNavLink4">Continue...</a>  -->
+							<!-- data-nav-link holds the ID of nav item, which means this link should behave the same as that nav item  -->
+							<form method="POST" action="#O-Glycosylation Analyzer" enctype="multipart/form-data">
+								{% csrf_token %}
+
+								<input type="file" name="myFile" style="background-color: #555; color: #fff;">
+								<input type="submit" name="submit">
+							</form>
+						</div>
+					</section>
+
+					<!-- section 4: Contact Info. -->
+					<section id="tm-section-4" class="tm-section">
+						<div class="tm-bg-transparent-black tm-contact-box-pad">
+							<div class="row mb-4">
+								<div class="col-sm-12">
+									<header><h2 class="tm-text-shadow">Contact Us</h2></header>
+								</div>
+							</div>
+							<div class="row tm-page-4-content">
+								<div class="col-md-6 col-sm-12 tm-contact-col">
+									<div class="contact_message">
+										<form action="#contact" method="post" class="contact-form">
+											<div class="form-group">
+												<input type="text" id="contact_name" name="contact_name" class="form-control" placeholder="Name" required="">
+											</div>
+											<div class="form-group">
+												<input type="email" id="contact_email" name="contact_email" class="form-control" placeholder="Email" required="">
+											</div>
+											<div class="form-group">
+												<textarea id="contact_message" name="contact_message" class="form-control" rows="9" placeholder="Message" required=""></textarea>
+											</div>
+											<button type="submit" class="btn tm-btn-submit tm-btn ml-auto">Submit</button>
+										</form>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-12 tm-contact-col">
+									<div class="tm-address-box">
+										<p style="text-shadow: black 0.1em 0.1em 0.2em; font-size:20px;">Institute of Biological Chemistry, Academia Sinica
+										128, Section 2, Academia Road, Taipei 115 Taiwan</p>
+										<p>Tel: +886-2-27855696 | Fax: +886-2-27889759</p>
+										</address>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>					
+				</div>	<!-- .tm-content -->							
+				<footer class="footer-link">
+					<p class="tm-copyright-text">This website is created with &#9825; by Yu-Xi Tsai. </p>
+				</footer>
+			</div>	<!-- row -->			
+		</div>
+		<div id="preload-01"></div>
+		<div id="preload-02"></div>
+		<div id="preload-03"></div>
+		<div id="preload-04"></div>
+
+		<script type="text/javascript" src="{% static 'mysite/js/jquery-3.2.1.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'mysite/js/jquery.magnific-popup.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'mysite/js/jquery.backstretch.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'mysite/slick/slick.min.js' %}"></script> 
+		<!-- Slick Carousel -->
+
+		<script>
+
+		var sidebarVisible = false;
+		var currentPageID = "#tm-section-1";
+
+		// Setup Nav
+		function setupNav() {
+			// Add Event Listener to each Nav item
+			$(".tm-main-nav a").click(function(e){
+	     		e.preventDefault();
+		    	
+		    	var currentNavItem = $(this);
+		    	changePage(currentNavItem);
+		    	
+		    	setupCarousel();
+		    	setupFooter();
+
+		    	// Hide the nav on mobile
+		    	$("#tmSideBar").removeClass("show");
+		    });	    
+  		}
+
+  		function changePage(currentNavItem) {
+  			// Update Nav items
+  			$(".tm-main-nav a").removeClass("active");
+     		currentNavItem.addClass("active");
+
+	    	$(currentPageID).hide();
+
+	    	// Show current page
+	    	currentPageID = currentNavItem.data("page");
+	    	$(currentPageID).fadeIn(1000);
+
+	    	// Change background image
+	    	var bgImg = currentNavItem.data("bgImg");
+	    	// $.backstretch("img/" + bgImg);
+	    	$.backstretch(bgImg);		    	
+  		}
+
+  		// Setup Nav Toggle Button
+  		function setupNavToggle() {
+
+			$("#tmMainNavToggle").on("click", function(){
+				$(".sidebar").toggleClass("show");
+			});
+  		}
+
+  		// If there is enough room, stick the footer at the bottom of page content.
+  		// If not, place it after the page content
+  		function setupFooter() {
+  			
+  			var padding = 100;
+  			var footerPadding = 40;
+  			var mainContent = $("section"+currentPageID);
+  			var mainContentHeight = mainContent.outerHeight(true);
+  			var footer = $(".footer-link");
+  			var footerHeight = footer.outerHeight(true);
+  			var totalPageHeight = mainContentHeight + footerHeight + footerPadding + padding;
+  			var windowHeight = $(window).height();		
+
+  			if(totalPageHeight > windowHeight){
+  				$(".tm-content").css("margin-bottom", footerHeight + footerPadding + "px");
+  				footer.css("bottom", footerHeight + "px");  			
+  			}
+  			else {
+  				$(".tm-content").css("margin-bottom", "0");
+  				footer.css("bottom", "20px");  				
+  			}  			
+  		}
+
+  		// Everything is loaded including images.
+      	$(window).on("load", function(){
+
+      		// Render the page on modern browser only.
+      		if(renderPage) {
+				// Remove loader
+		      	$('body').addClass('loaded');
+
+		      	// Page transition
+		      	var allPages = $(".tm-section");
+
+		      	// Handle click of "Continue", which changes to next page
+		      	// The link contains data-nav-link attribute, which holds the nav item ID
+		      	// Nav item ID is then used to access and trigger click on the corresponding nav item
+		      	var linkToAnotherPage = $("a.tm-btn[data-nav-link]");
+			    
+			    if(linkToAnotherPage != null) {
+			    	
+			    	linkToAnotherPage.on("click", function(){
+			    		var navItemToHighlight = linkToAnotherPage.data("navLink");
+			    		$("a" + navItemToHighlight).click();
+			    	});
+			    }
+		      	
+		      	// Hide all pages
+		      	allPages.hide();
+
+		      	$("#tm-section-1").fadeIn();
+
+		     	// Set up background first page
+		     	var bgImg = $("#tmNavLink1").data("bgImg");
+		     	
+		     	// $.backstretch("img/" + bgImg, {fade: 500});
+		     	$.backstretch(bgImg, {fade: 500});
+
+		     	// Setup Carousel, Nav, and Nav Toggle
+			    // setupCarousel();
+			    setupNav();
+			    setupNavToggle();
+			    setupFooter();
+
+			    // Resize Carousel upon window resize
+			    // $(window).resize(function() {
+			    // 	setupCarousel();
+			    // 	setupFooter();
+			    // });
+      		}	      	
+		});
+
+		</script>
+	</body>
+</html>
