@@ -26,7 +26,6 @@ cycler==0.10.0
 cytoolz==0.10.1
 decorator==4.4.2
 defusedxml==0.6.0
-distributed @ file:///C:/ci/distributed_1594742844291/work
 dj-database-url==0.5.0
 djangify==1.0.0
 Django==2.2.5
