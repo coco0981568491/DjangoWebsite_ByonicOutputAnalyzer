@@ -62,7 +62,6 @@ kiwisolver==1.2.0
 lazy-object-proxy==1.4.3
 libarchive-c==2.9
 locket==0.2.0
-lxml @ file:///C:/ci/lxml_1594822774489/work
 MarkupSafe==1.1.1
 matplotlib @ file:///C:/ci/matplotlib-base_1592837548929/work
 mccabe==0.6.1
