@@ -117,7 +117,6 @@ QDarkStyle==2.8.1
 QtAwesome==0.7.2
 QtPy==1.9.0
 rope==0.17.0
-ruamel-yaml==0.15.87
 seaborn==0.10.1
 Send2Trash==1.5.0
 simplegeneric==0.8.1
