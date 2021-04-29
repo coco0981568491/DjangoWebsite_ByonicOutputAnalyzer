@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django_q.tasks import async_task
 
 
@@ -10,7 +10,9 @@ def home(request):
 		file = request.FILES["myFile"]
 
 		async_task("mysite.services.data_processing", file)
-		
+
+		return render(request, "index.html")
+
 	else:
 		return render(request, "index.html")
 

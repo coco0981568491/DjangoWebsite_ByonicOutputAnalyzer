@@ -1,4 +1,3 @@
-from django.shortcuts import HttpResponse
 import zipfile
 from pptx import Presentation
 from pptx.util import Inches
@@ -1322,6 +1321,7 @@ def data_processing(file):
 	# store the plot into in-memory
 	# fig.savefig(in_memory_fp, format = 'png') 
 	# filenames.append('%s_BarPieCharts.png'%filename)
+
 	## DRAW ALL PIE CHARTS (if site num > 4).
 	if len(original_pie_size) > 4: 
 	##### adjustable parameters ###################
@@ -1983,25 +1983,25 @@ def data_processing(file):
 
 	    # filenames.append('%s_BarCharts.png'%filename)
 
-	    # Folder name in ZIP archive 
-	    zip_filename = "Results.zip"
-	    # print("Creating archive: {:s}".format(zip_filename))
+    # Folder name in ZIP archive 
+    zip_filename = "Results.zip"
+    # print("Creating archive: {:s}".format(zip_filename))
 
-	    zip_buffer = BytesIO()
+    zip_buffer = BytesIO()
 
-	    with zipfile.ZipFile(zip_buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
-	    	# 2 in-memory files in total.
-	    	fname1 = "%s_Colored.xlsx"%filename
-	    	# print("  Writing {:s} in the archive".format(fname1))
-	    	zf.writestr(fname1, buf1.getvalue())
-	    	fname2 = "Plots.pptx"
-	    	# print("  Writing {:s} in the archive".format(fname2))
-	    	zf.writestr(fname2, buf2.getvalue())
+    with zipfile.ZipFile(zip_buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+    	# 2 in-memory files in total.
+    	fname1 = "%s_Colored.xlsx"%filename
+    	# print("  Writing {:s} in the archive".format(fname1))
+    	zf.writestr(fname1, buf1.getvalue())
+    	fname2 = "Plots.pptx"
+    	# print("  Writing {:s} in the archive".format(fname2))
+    	zf.writestr(fname2, buf2.getvalue())
 
+	# Grab ZIP file from in-memory, make response with correct content-type
+    resp = HttpResponse(zip_buffer.getvalue(), content_type = 'application/x-zip-compressed')
+    # ..and correct content-disposition
+    resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
-	    # Grab ZIP file from in-memory, make response with correct content-type
-	    resp = HttpResponse(zip_buffer.getvalue(), content_type = 'application/x-zip-compressed')
-	    # ..and correct content-disposition
-	    resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+    return resp
 
-	    return resp
