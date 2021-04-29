@@ -27,7 +27,6 @@ cytoolz==0.10.1
 decorator==4.4.2
 defusedxml==0.6.0
 dj-database-url==0.5.0
-djangify==1.0.0
 Django==2.2.5
 django-heroku==0.3.1
 docutils==0.16
@@ -36,7 +35,6 @@ et-xmlfile==1.0.1
 fastcache==1.1.0
 filelock==3.0.12
 flake8==3.8.3
-Flask==1.1.2
 fsspec==0.7.4
 future==0.18.2
 glob2==0.7
@@ -52,10 +50,6 @@ jdcal==1.4.1
 Jinja2==2.11.2
 json5==0.9.5
 jsonschema==3.2.0
-jupyter==1.0.0
-jupyter-console==6.1.0
-jupyter-core==4.6.3
-jupyterlab==2.1.5
 kiwisolver==1.2.0
 lazy-object-proxy==1.4.3
 libarchive-c==2.9
