@@ -25,7 +25,7 @@ def home(request):
 		sorted_data = sorted_data.fillna(0)
 		#display(HTML(sorted_data.to_html()))
 		print(sorted_data.columns)
-		sorted_data = sorted_data.rename(columns={'Glycans\r\nPos.' : 'Glycans Pos.', 'Sequence\r\n(unformatted)': 'Sequence', 'Mods\r\n(fixed)':'Modifications (fixed)', 'Calc.\r\nMH' : 'Calc. MH', 'Obs.\r\nm/z':'Obs. m/z', 'Calc.\r\nm/z':'Calc. m/z', 'ppm\r\nerr.':'ppm err.', 'Scan\r\nTime':'Scan Time', 'PEP\r\n2D':'PEP 2D'})
+		sorted_data = sorted_data.rename(columns={'Glycans_x000D_\nPos.' : 'Glycans Pos.', 'Sequence\r\n(unformatted)': 'Sequence', 'Calc._x000D_\nMH' : 'Calc. MH', 'PEP_x000D_\n2D':'PEP 2D'})
 		#sorted_data.columns
 
 		print('--------------------------------------- Score & PEP2D Selection Process Begins ---------------------------------------')
