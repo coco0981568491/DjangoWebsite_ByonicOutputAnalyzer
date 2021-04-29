@@ -12,14 +12,13 @@ def home(request):
 		async_task("mysite.services.data_processing", file)
 
 		# Grab ZIP file from in-memory, make response with correct content-type
-	    resp = HttpResponse(task.result.getvalue(), content_type = 'application/x-zip-compressed')
-	    # ..and correct content-disposition
-	    resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+		resp = HttpResponse(task.result.getvalue(), content_type = 'application/x-zip-compressed')
+		# ..and correct content-disposition
+		resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
-	    return resp
+		return resp
 
 	else:
 		return render(request, "index.html")
 
-# def upload(request):
-# 	return render(request, "fileupload.html")
+
