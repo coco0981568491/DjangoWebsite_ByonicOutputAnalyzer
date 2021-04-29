@@ -28,8 +28,8 @@ def home(request):
 		sorted_data = sorted_data.rename(columns={'Glycans_x000D_\nPos.' : 'Glycans Pos.', 'Sequence\r\n(unformatted)': 'Sequence', 'Calc._x000D_\nMH' : 'Calc. MH', 'PEP_x000D_\n2D':'PEP 2D'})
 		#sorted_data.columns
 
-		print('--------------------------------------- Score & PEP2D Selection Process Begins ---------------------------------------')
-		print('\nStep1: Filter Score & PEP2D -> Delete the peptides without the correct N-glycosylation sequon.\n')
+		# print('--------------------------------------- Score & PEP2D Selection Process Begins ---------------------------------------')
+		# print('\nStep1: Filter Score & PEP2D -> Delete the peptides without the correct N-glycosylation sequon.\n')
 
 		###########################
 		sorted_data_scoreHightoLow_score200_pep2d0001 = sorted_data.loc[((sorted_data['Score'] > 200) & (sorted_data['PEP 2D'] < 0.001))]
@@ -55,7 +55,7 @@ def home(request):
 		for each_pure_seq in pure_seq:
 		    each_sequon = []
 		    save_num = 0
-		    print('each_pure_seq:%s '%each_pure_seq)
+		    # print('each_pure_seq:%s '%each_pure_seq)
 		    for each_aa in aa_for_N_sequon:
 		        if 'N%sT'%each_aa in each_pure_seq:
 		            for i in range(each_pure_seq.count('N%sT'%each_aa)):
@@ -73,8 +73,8 @@ def home(request):
 		                save_num += 1
 		    sequon_lst.append(each_sequon)
 		    #print('this is sequon_lst: %s'%sequon_lst)
-		    print('save num: %s'%save_num)
-		    print('seq count: %s'%seq_count)
+		    # print('save num: %s'%save_num)
+		    # print('seq count: %s'%seq_count)
 		    #record the key info. from the sequon analysis
 		    if save_num == 0: #no sequon
 		        delete_ind.append(seq_count)
@@ -82,14 +82,14 @@ def home(request):
 		        double_sequon_seq.append(each_pure_seq)
 		    seq_count += 1
 		    
-		print('\n%s rows will be deleted.'%len(delete_ind))
+		# print('\n%s rows will be deleted.'%len(delete_ind))
 		sorted_data_scoreHightoLow_score200_pep2d0001 = sorted_data_scoreHightoLow_score200_pep2d0001.drop(sorted_data_scoreHightoLow_score200_pep2d0001.index[delete_ind])
 		sorted_data_scoreHightoLow_score200_pep2d0001 = sorted_data_scoreHightoLow_score200_pep2d0001.reset_index(drop=True)
-		print('Data size after deletion:')
-		print(sorted_data_scoreHightoLow_score200_pep2d0001.shape)
+		# print('Data size after deletion:')
+		# print(sorted_data_scoreHightoLow_score200_pep2d0001.shape)
 		sequon_lst = [sequon[0] if len(sequon) == 1 else sequon for sequon in sequon_lst if len(sequon) != 0]
 		#print('this is sequon_lst: %s'%sequon_lst)
-		print('sequon length: %s'%len(sequon_lst))
+		# print('sequon length: %s'%len(sequon_lst))
 		sorted_data_scoreHightoLow_score200_pep2d0001.insert(sorted_data_scoreHightoLow_score200_pep2d0001.columns.get_loc('Pure Sequence') + 1 , 'Sequon', sequon_lst , True)
 
 		sorted_data_scoreHightoLow_score200_pep2d0001 = sorted_data_scoreHightoLow_score200_pep2d0001.reset_index(drop=True)
@@ -124,7 +124,7 @@ def home(request):
 		sorted_data_scoreHightoLow_score200_pep2d0001['Sequence'] = new_seq
 		#display(HTML(sorted_data_scoreHightoLow_score200_pep2d0001.to_html()))
 
-		print('\nSave the indices of the double-sequon peptide sequence.')
+		# print('\nSave the indices of the double-sequon peptide sequence.')
 		double_sequon_seq = sorted(set(double_sequon_seq), key=lambda x: double_sequon_seq.index(x))
 		#print('this is double_sequon_seq: %s'%double_sequon_seq)
 		double_sequon_seq_ind = []
@@ -132,23 +132,23 @@ def home(request):
 		new_glyco_site = []
 		for seq in double_sequon_seq:
 		    each_double_sequon_pos = []
-		    print('this is seq: %s'%seq)
+		    # print('this is seq: %s'%seq)
 		    each_double_sequon_seq_ind = sorted_data_scoreHightoLow_score200_pep2d0001.index[sorted_data_scoreHightoLow_score200_pep2d0001['Pure Sequence'] == seq].tolist()
 		    #print('this is each_double_sequon_seq_ind: %s'%each_double_sequon_seq_ind)
 		    each_sequon = [sequon_lst[i] for i in each_double_sequon_seq_ind][0]
-		    print('this is each_sequon: %s'%each_sequon)
+		    # print('this is each_sequon: %s'%each_sequon)
 		    if each_sequon[0] == each_sequon[1]:
 		        for sequon in each_sequon: 
 		            each_N_ind = [m.start() for m in re.finditer(sequon, seq)]       
 		    else:
 		        each_N_ind = [seq.index(sequon) for sequon in each_sequon]
 		        each_N_ind = sorted(each_N_ind)
-		        print('this is each_N_ind: %s'%each_N_ind)
+		        # print('this is each_N_ind: %s'%each_N_ind)
 		    each_double_sequon_pos_num = [pos_num[i] for i in each_double_sequon_seq_ind]
 		    each_N_ind = np.array(each_N_ind)
 		    each_new_glyco_site = [list(each_N_ind+j -1) for j in each_double_sequon_pos_num]
 		    new_glyco_site.append(each_new_glyco_site)
-		    print('each_new_glyco_site: %s'%each_new_glyco_site)
+		    # print('each_new_glyco_site: %s'%each_new_glyco_site)
 		    double_sequon_seq_ind.append(each_double_sequon_seq_ind)
 		    double_sequon_pos_num.append(each_double_sequon_pos_num)
 		    
@@ -242,67 +242,67 @@ def home(request):
 		        glycosylation_site.append(each_glycosylation_site)
 		        int_glycan_posi_count += 1
 		regrouped_glyco_site = glycosylation_site.copy()
-		print('this is regrouped_glyco_site: %s'%regrouped_glyco_site)
-		print('this is regrouped_glyco_site size: %s'%len(regrouped_glyco_site))
+		# print('this is regrouped_glyco_site: %s'%regrouped_glyco_site)
+		# print('this is regrouped_glyco_site size: %s'%len(regrouped_glyco_site))
 		new_glyco_site_count = 0
 		for i in double_sequon_seq_ind:
 		    regrouped_glyco_site[i] = new_glyco_site[new_glyco_site_count]
 		    new_glyco_site_count += 1
-		print('this is regrouped_glyco_site: %s'%regrouped_glyco_site)
-		print('this is regrouped_glyco_site size: %s'%len(regrouped_glyco_site))
+		# print('this is regrouped_glyco_site: %s'%regrouped_glyco_site)
+		# print('this is regrouped_glyco_site size: %s'%len(regrouped_glyco_site))
 		##update the glycosylation sites.
 		glycosylation_site = [site if type(site) == int else str(site) for site in regrouped_glyco_site]
-		print('this is revised glycosylation_site: %s'%glycosylation_site)
+		# print('this is revised glycosylation_site: %s'%glycosylation_site)
 		sorted_data_scoreHightoLow_score200_pep2d0001.insert(2, 'Glycosylation Site', glycosylation_site, True)
 
 		#display(HTML(sorted_data_scoreHightoLow_score200_pep2d0001.to_html()))
 
-		print('\nStep2: Sort Score within each glycosylation site & get unique Calc.MH while recording PSM.\n')
+		# print('\nStep2: Sort Score within each glycosylation site & get unique Calc.MH while recording PSM.\n')
 		site = sorted(set(glycosylation_site), key=lambda x: glycosylation_site.index(x)) 
-		print('this is site ---> %s'%site)
+		# print('this is site ---> %s'%site)
 		site_nostr = site.copy()
 		each_site_first_lst = []
 		str_site = []
 		for each_site in site:
-		    print('each_site: %s'%each_site)
+		    # print('each_site: %s'%each_site)
 		    if type(each_site) != int:
 		        str_site.append(each_site)
 		        each_site_first = each_site.replace('[', ',').replace(']', ',').split(',')[1] #take the first number to determine the insertion site.
 		        each_site_first = int(each_site_first)
-		        print('this is each site first: %s'%each_site_first)
+		        # print('this is each site first: %s'%each_site_first)
 		        each_site_first_lst.append(each_site_first)
 		        site_nostr.remove(each_site)
-		        print('site_nostr: %s'%site_nostr)
+		        # print('site_nostr: %s'%site_nostr)
 		site_nostr = list(site_nostr)
-		print('site_nostr: %s'%site_nostr)
+		# print('site_nostr: %s'%site_nostr)
 		site_nostr.sort()
-		print('site_nostr: %s'%site_nostr)
+		# print('site_nostr: %s'%site_nostr)
 		site_nostr_new = site_nostr.copy()
 		strsite_firstnum_dic = dict(zip(each_site_first_lst, str_site))
-		print('this is the dict before orderedDict: %s'%strsite_firstnum_dic)
+		# print('this is the dict before orderedDict: %s'%strsite_firstnum_dic)
 		strsite_firstnum_dic = collections.OrderedDict(sorted(strsite_firstnum_dic.items()))
-		print('this is strsite_firstnum_dic: %s'%strsite_firstnum_dic)
+		# print('this is strsite_firstnum_dic: %s'%strsite_firstnum_dic)
 		each_site_first_lst = sorted(each_site_first_lst)
 		insert_shift = 0
 		for i in range(len(each_site_first_lst)):
 		    for j in range(len(site_nostr)):
-		        print('this is each_site_first_lst[j]:%s'%each_site_first_lst[i])
-		        print('this is site_nostr[i]:%s'%site_nostr[j])
+		        # print('this is each_site_first_lst[j]:%s'%each_site_first_lst[i])
+		        # print('this is site_nostr[i]:%s'%site_nostr[j])
 		        if j != len(site_nostr) -1: #  not the last index.
 		            if each_site_first_lst[i] == site_nostr[j]: 
 		                site_nostr_new.insert(j +1 +insert_shift , strsite_firstnum_dic.get(each_site_first_lst[i]))
-		                print('site nostr new: %s'%site_nostr_new)
+		                # print('site nostr new: %s'%site_nostr_new)
 		                insert_shift += 1
 		            elif site_nostr[j] < each_site_first_lst[i] < site_nostr[j+1]:
 		                site_nostr_new.insert(j +1 +insert_shift , strsite_firstnum_dic.get(each_site_first_lst[i]))
-		                print('site nostr new: %s'%site_nostr_new)
+		                # print('site nostr new: %s'%site_nostr_new)
 		                insert_shift += 1
 		        elif j == len(site_nostr) -1 : #last index            
 		            if each_site_first_lst[i] >= site_nostr[j]: 
 		                site_nostr_new.append(strsite_firstnum_dic.get(each_site_first_lst[i]))
-		                print('site nostr new: %s'%site_nostr_new)
+		                # print('site nostr new: %s'%site_nostr_new)
 		                insert_shift += 1
-		print(site_nostr_new)
+		# print(site_nostr_new)
 		frames = []
 		for each_site in site_nostr_new:
 		    each_sorted_data_scoreHightoLow = sorted_data_scoreHightoLow_score200_pep2d0001[sorted_data_scoreHightoLow_score200_pep2d0001['Glycosylation Site'] == each_site].sort_values('Score', ascending = False)
@@ -330,7 +330,7 @@ def home(request):
 		#print('Export file: ... scoreHightoLow_score200_pep2d0001_AddPSMdifMH')
 		#sorted_data_scoreHightoLow_score200_pep2d0001_difMH.to_excel('%s_scoreHightoLow_score200_pep2d0001_AddPSMdifMH.xlsx'%filename, index = False)
 
-		print('\nStep3: Start glycan type analysis.')
+		# print('\nStep3: Start glycan type analysis.')
 		glycans = sorted_data_scoreHightoLow_score200_pep2d0001_difMH['Glycans'].tolist()
 		types = [glycan.replace(')', ',').replace('(', ',').split(',') if glycan != 0 else glycan for glycan in glycans]
 
@@ -615,9 +615,9 @@ def home(request):
 		sorted_data_scoreHightoLow_score200_pep2d0001_difMH.style.apply(highlight, axis=None).to_excel(writer, index = False)
 		writer.save()
 
-		print('\nFile exported.')
+		# print('\nFile exported.')
 
-		print('\nStep4: Summary of the glycan type composition within each site.')
+		# print('\nStep4: Summary of the glycan type composition within each site.')
 		glycosylation_site = sorted_data_scoreHightoLow_score200_pep2d0001_difMH['Glycosylation Site'].tolist()
 		psm = sorted_data_scoreHightoLow_score200_pep2d0001_difMH['PSM'].tolist()
 		psm_count = 0
@@ -728,12 +728,12 @@ def home(request):
 		        Unoccupied = each_bar_size[-1]
 		        each_pie_size.extend([Highman, Hybrid, Complex, Unoccupied])
 		        pie_size.append(each_pie_size)
-		print('this is bar_size:\n%s'%bar_size)
+		# print('this is bar_size:\n%s'%bar_size)
 		original_bar_size = bar_size #save for later manipulation. 
-		print('this is pie_size:\n%s'%pie_size)
+		# print('this is pie_size:\n%s'%pie_size)
 		original_pie_size = pie_size #save for later manipulation.
-		print('length of the bar_size (also the final site number): %s'%len(bar_size))
-		print('length of the pie_size (also the final site number): %s'%len(pie_size))
+		# print('length of the bar_size (also the final site number): %s'%len(bar_size))
+		# print('length of the pie_size (also the final site number): %s'%len(pie_size))
 
 		##record glycosylation site indices.
 		sites_for_plot = []
@@ -759,35 +759,35 @@ def home(request):
 		    full_row_num = len(bar_size)//number_of_sites_inrow
 		    remainder_num = len(bar_size)%number_of_sites_inrow
 		    bar_remainder = bar_size[-remainder_num:] #last ones.
-		    print('bar_remainder: %s'%bar_remainder)
+		    # print('bar_remainder: %s'%bar_remainder)
 		    bar_size = [bar_size[number_of_sites_inrow*i:number_of_sites_inrow*(i+1)] for i in range(full_row_num)]
 		    pie_remainder = pie_size[-remainder_num:] #last ones.
-		    print('pie_remainder: %s'%pie_remainder)
+		    # print('pie_remainder: %s'%pie_remainder)
 		    pie_size = [pie_size[number_of_sites_inrow*i:number_of_sites_inrow*(i+1)] for i in range(full_row_num)]
-		    print('this is resized bar_size: %s'%bar_size)
-		    print('this is resized pie_size: %s'%pie_size)
+		    # print('this is resized bar_size: %s'%bar_size)
+		    # print('this is resized pie_size: %s'%pie_size)
 		else:
 		    number_of_sites_inrow = 4
 		    full_row_num = len(bar_size)//number_of_sites_inrow
 		    remainder_num = len(bar_size)%number_of_sites_inrow
 		    bar_remainder = bar_size[-remainder_num:] #last ones.
-		    print('bar_remainder: %s'%bar_remainder)
+		    # print('bar_remainder: %s'%bar_remainder)
 		    bar_size = [bar_size[number_of_sites_inrow*i:number_of_sites_inrow*(i+1)] for i in range(full_row_num)]
 		    bar_size.append(bar_remainder)
 		    pie_remainder = pie_size[-remainder_num:] #last ones.
-		    print('pie_remainder: %s'%pie_remainder)
+		    # print('pie_remainder: %s'%pie_remainder)
 		    pie_size = [pie_size[number_of_sites_inrow*i:number_of_sites_inrow*(i+1)] for i in range(full_row_num)]
 		    pie_size.append(pie_remainder)
-		    print('this is resized bar_size: %s'%bar_size)
-		    print('this is resized pie_size: %s'%pie_size)
+		    # print('this is resized bar_size: %s'%bar_size)
+		    # print('this is resized pie_size: %s'%pie_size)
 
 		if remainder_num == 0:
 		    row_num = full_row_num
 		else: 
 		    row_num = full_row_num + 1
 
-		print('this is row_num: %s'%row_num)
-		print('this is remainder_num: %s'%remainder_num)
+		# print('this is row_num: %s'%row_num)
+		# print('this is remainder_num: %s'%remainder_num)
 		col_num = 2*number_of_sites_inrow
 		fig_ratio = number_of_sites_inrow/row_num
 		###############################################
@@ -858,7 +858,7 @@ def home(request):
 		                        #ax1.set_ylim(yticks[0], yticks[-1])
 		                        axs[i, 2*j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                        bars = [rect for rect in axs[i, 2*j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                        print('this is the length of bars: %s'%len(bars))
+		                        # print('this is the length of bars: %s'%len(bars))
 		                        bar_type_count = 0
 		                        multi_bar_labels = ['HM', 'H/C', 'UN']
 		                        for bar in bars:
@@ -927,7 +927,7 @@ def home(request):
 		                        axs[i, 2*j].set_ylim(yticks[0], yticks[-1])
 		                        axs[i, 2*j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                        bars = [rect for rect in axs[i, 2*j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                        print('this is the length of bars: %s'%len(bars))
+		                        # print('this is the length of bars: %s'%len(bars))
 		                        bar_type_count = 0
 		                        multi_bar_labels = ['HM', 'H/C', 'UN']
 		                        for bar in bars:
@@ -972,10 +972,10 @@ def home(request):
 		                last_row_site_num = number_of_sites_inrow
 		            else: #cannot be divided by 4.
 		                last_row_site_num = remainder_num
-		            print('this is last_row_site_num: %s'%last_row_site_num)
+		            # print('this is last_row_site_num: %s'%last_row_site_num)
 		            for j in range(number_of_sites_inrow):
 		                if j < last_row_site_num:  
-		                    print('this is i,j: %s,%s'%(i,j))
+		                    # print('this is i,j: %s,%s'%(i,j))
 		                    if max(bar_size[i][j]) > TICKER_THRESHOLD: #use ticker.
 		                        if '/' in sites_for_plot[site_name_count]: #multi-sites.
 		                            #pie
@@ -1004,7 +1004,7 @@ def home(request):
 		                            #ax1.set_ylim(yticks[0], yticks[-1])
 		                            axs[i, 2*j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                            bars = [rect for rect in axs[i, 2*j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                            print('this is the length of bars: %s'%len(bars))
+		                            # print('this is the length of bars: %s'%len(bars))
 		                            bar_type_count = 0
 		                            multi_bar_labels = ['HM', 'H/C', 'UN']
 		                            for bar in bars:
@@ -1072,7 +1072,7 @@ def home(request):
 		                            axs[i, 2*j].set_ylim(yticks[0], yticks[-1])
 		                            axs[i, 2*j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                            bars = [rect for rect in axs[i, 2*j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                            print('this is the length of bars: %s'%len(bars))
+		                            # print('this is the length of bars: %s'%len(bars))
 		                            bar_type_count = 0
 		                            multi_bar_labels = ['HM', 'H/C', 'UN']
 		                            for bar in bars:
@@ -1086,7 +1086,7 @@ def home(request):
 		                                    pass
 		                            site_name_count += 1
 		                        else: #real single sites.
-		                            print('this is i,j: %s,%s'%(i,j))
+		                            # print('this is i,j: %s,%s'%(i,j))
 		                            #pie
 		                            axs[i, 2*j+1].pie(pie_size[i][j], radius=PIE_R, colors = colors, shadow = True, wedgeprops={"edgecolor":"k",'linewidth': pie_line_w, 'antialiased': True})
 		                            #bar
@@ -1114,7 +1114,7 @@ def home(request):
 		                            axs[i, 2*j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                            site_name_count += 1
 		                else: #empty subplot(s). hide spines & ticks & labels.
-		                    print('this is i,j for empty subplots: %s,%s'%(i,j))
+		                    # print('this is i,j for empty subplots: %s,%s'%(i,j))
 		                    axs[i, 2*j].spines["left"].set_visible(False)
 		                    axs[i, 2*j].spines["right"].set_visible(False)
 		                    axs[i, 2*j].spines["top"].set_visible(False)
@@ -1133,7 +1133,7 @@ def home(request):
 		        last_row_site_num = number_of_sites_inrow
 		    else: #cannot be divided by 4.
 		        last_row_site_num = remainder_num
-		    print('this is last_row_site_num: %s'%last_row_site_num)
+		    # print('this is last_row_site_num: %s'%last_row_site_num)
 		    for j in range(number_of_sites_inrow):
 		        if j < last_row_site_num:  
 		            if max(bar_size[i][j]) > TICKER_THRESHOLD: #use ticker.
@@ -1164,7 +1164,7 @@ def home(request):
 		                    #ax1.set_ylim(yticks[0], yticks[-1])
 		                    axs[2*j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                    bars = [rect for rect in axs[2*j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                    print('this is the length of bars: %s'%len(bars))
+		                    # print('this is the length of bars: %s'%len(bars))
 		                    bar_type_count = 0
 		                    multi_bar_labels = ['HM', 'H/C', 'UN']
 		                    for bar in bars:
@@ -1232,7 +1232,7 @@ def home(request):
 		                    axs[2*j].set_ylim(yticks[0], yticks[-1])
 		                    axs[2*j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                    bars = [rect for rect in axs[2*j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                    print('this is the length of bars: %s'%len(bars))
+		                    # print('this is the length of bars: %s'%len(bars))
 		                    bar_type_count = 0
 		                    multi_bar_labels = ['HM', 'H/C', 'UN']
 		                    for bar in bars:
@@ -1246,7 +1246,7 @@ def home(request):
 		                            pass
 		                    site_name_count += 1
 		                else: #real single sites.
-		                    print('this is i,j: %s,%s'%(i,j))
+		                    # print('this is i,j: %s,%s'%(i,j))
 		                    #pie
 		                    axs[2*j+1].pie(pie_size[i][j], radius=PIE_R, colors = colors, shadow = True, wedgeprops={"edgecolor":"k",'linewidth': pie_line_w, 'antialiased': True})
 		                    #bar
@@ -1274,7 +1274,7 @@ def home(request):
 		                    axs[2*j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                    site_name_count += 1
 		        else: #empty subplot(s). hide spines & ticks & labels.
-		            print('this is i,j for empty subplots: %s,%s'%(i,j))
+		            # print('this is i,j for empty subplots: %s,%s'%(i,j))
 		            axs[2*j].spines["left"].set_visible(False)
 		            axs[2*j].spines["right"].set_visible(False)
 		            axs[2*j].spines["top"].set_visible(False)
@@ -1306,14 +1306,14 @@ def home(request):
 		plt.legend(handles=legend_elements, prop=legend_properties, bbox_to_anchor=(1.2,-0.2), loc='upper left')
 
 		#plt.tight_layout()
-		print('\nStep6: Export Pie & Bar charts as .png files.')
+		# print('\nStep6: Export Pie & Bar charts as .png files.')
 
 		# save plt to bytesio
 		in_memory_fp0 = BytesIO()
 		plt.savefig(in_memory_fp0)
 		plt.close()
 
-		print('\nStep6: Export All Pie charts as .png')
+		# print('\nStep6: Export All Pie charts as .png')
 
 		# open new ppt object
 		prs = Presentation()
@@ -1343,18 +1343,18 @@ def home(request):
 		    full_row_num = len(original_pie_size)//number_of_sites_inrow
 		    remainder_num = len(original_pie_size)%number_of_sites_inrow
 		    pie_remainder = original_pie_size[-remainder_num:] #last ones.
-		    print('pie_remainder: %s'%pie_remainder)
+		    # print('pie_remainder: %s'%pie_remainder)
 		    pie_size = [original_pie_size[number_of_sites_inrow*i:number_of_sites_inrow*(i+1)] for i in range(full_row_num)]
 		    pie_size.append(pie_remainder)
-		    print('this is resized pie_size: %s'%pie_size)
+		    # print('this is resized pie_size: %s'%pie_size)
 
 		    if remainder_num == 0:
 		        row_num = full_row_num
 		    else: #e.g. 3 sites in total.
 		        row_num = full_row_num + 1
 
-		    print('this is row_num: %s'%row_num)
-		    print('this is remainder_num: %s'%remainder_num)
+		    # print('this is row_num: %s'%row_num)
+		    # print('this is remainder_num: %s'%remainder_num)
 		    col_num = 1*number_of_sites_inrow
 		    fig_ratio = number_of_sites_inrow/row_num
 		    ###############################################
@@ -1394,10 +1394,10 @@ def home(request):
 		                    last_row_site_num = number_of_sites_inrow
 		                else: #cannot be divided by 8.
 		                    last_row_site_num = remainder_num
-		                print('this is last_row_site_num: %s'%last_row_site_num)
+		                # print('this is last_row_site_num: %s'%last_row_site_num)
 		                for j in range(number_of_sites_inrow):
 		                    if j < last_row_site_num:  
-		                        print('this is i,j: %s,%s'%(i,j))
+		                        # print('this is i,j: %s,%s'%(i,j))
 		                        if '/' in sites_for_plot[site_name_count]: #multi-sites.
 		                            #pie
 		                            axs[i, j].pie(pie_size[i][j], radius=PIE_R, colors = multi_colors, shadow = True, wedgeprops={"edgecolor":"k",'linewidth': pie_line_w, 'antialiased': True})
@@ -1410,7 +1410,7 @@ def home(request):
 		                            axs[i, j].set_title(sites_for_plot[site_name_count], size = bar_title_fontsize, fontweight="bold", pad = SUBPLOT_PAD, ha='right')
 		                            site_name_count += 1       
 		                    else: #empty subplot(s). hide spines & ticks & labels.
-		                        print('this is i,j for empty subplots: %s,%s'%(i,j))
+		                        # print('this is i,j for empty subplots: %s,%s'%(i,j))
 		                        axs[i, j].spines["left"].set_visible(False)
 		                        axs[i, j].spines["right"].set_visible(False)
 		                        axs[i, j].spines["top"].set_visible(False)
@@ -1423,7 +1423,7 @@ def home(request):
 		            last_row_site_num = number_of_sites_inrow
 		        else: #cannot be divided by 8.
 		            last_row_site_num = remainder_num
-		        print('this is last_row_site_num: %s'%last_row_site_num)
+		        # print('this is last_row_site_num: %s'%last_row_site_num)
 		        for j in range(number_of_sites_inrow):
 		            if j < last_row_site_num:
 		                if '/' in sites_for_plot[site_name_count]: #multi-sites.
@@ -1466,7 +1466,7 @@ def home(request):
 		    plt.savefig(in_memory_fp1)
 		    plt.close()
 
-		    print('\nStep6: Export All Pie charts as .png')
+		    # print('\nStep6: Export All Pie charts as .png')
 
 		    # add 2nd ppt slide with pic
 		    slide_layout = prs.slide_layouts[1]
@@ -1481,18 +1481,18 @@ def home(request):
 		    full_row_num = len(original_bar_size)//number_of_sites_inrow
 		    remainder_num = len(original_bar_size)%number_of_sites_inrow
 		    bar_remainder = original_bar_size[-remainder_num:] #last ones.
-		    print('bar_remainder: %s'%bar_remainder)
+		    # print('bar_remainder: %s'%bar_remainder)
 		    bar_size = [original_bar_size[number_of_sites_inrow*i:number_of_sites_inrow*(i+1)] for i in range(full_row_num)]
 		    bar_size.append(bar_remainder)
-		    print('this is resized bar_size: %s'%bar_size)
+		    # print('this is resized bar_size: %s'%bar_size)
 
 		    if remainder_num == 0:
 		        row_num = full_row_num
 		    else: #e.g. 3 sites in total.
 		        row_num = full_row_num + 1
 
-		    print('this is row_num: %s'%row_num)
-		    print('this is remainder_num: %s'%remainder_num)
+		    # print('this is row_num: %s'%row_num)
+		    # print('this is remainder_num: %s'%remainder_num)
 		    col_num = 1*number_of_sites_inrow
 		    fig_ratio = number_of_sites_inrow/row_num
 		    ###############################################
@@ -1559,7 +1559,7 @@ def home(request):
 		                            #ax1.set_ylim(yticks[0], yticks[-1])
 		                            axs[i, j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                            bars = [rect for rect in axs[i, j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                            print('this is the length of bars: %s'%len(bars))
+		                            # print('this is the length of bars: %s'%len(bars))
 		                            bar_type_count = 0
 		                            multi_bar_labels = ['HM', 'H/C', 'UN']
 		                            for bar in bars:
@@ -1623,7 +1623,7 @@ def home(request):
 		                            axs[i, j].set_ylim(yticks[0], yticks[-1])
 		                            axs[i, j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                            bars = [rect for rect in axs[i, j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                            print('this is the length of bars: %s'%len(bars))
+		                            # print('this is the length of bars: %s'%len(bars))
 		                            bar_type_count = 0
 		                            multi_bar_labels = ['HM', 'H/C', 'UN']
 		                            for bar in bars:
@@ -1666,10 +1666,10 @@ def home(request):
 		                    last_row_site_num = number_of_sites_inrow
 		                else: #cannot be divided by 8.
 		                    last_row_site_num = remainder_num
-		                print('this is last_row_site_num: %s'%last_row_site_num)
+		                # print('this is last_row_site_num: %s'%last_row_site_num)
 		                for j in range(number_of_sites_inrow):
 		                    if j < last_row_site_num:  
-		                        print('this is i,j: %s,%s'%(i,j))
+		                        # print('this is i,j: %s,%s'%(i,j))
 		                        if max(bar_size[i][j]) > TICKER_THRESHOLD: #use ticker.
 		                            if '/' in sites_for_plot[site_name_count]: #multi-sites.
 		                                #bar
@@ -1695,7 +1695,7 @@ def home(request):
 		                                #ax1.set_ylim(yticks[0], yticks[-1])
 		                                axs[i, j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                                bars = [rect for rect in axs[i, 2*j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                                print('this is the length of bars: %s'%len(bars))
+		                                # print('this is the length of bars: %s'%len(bars))
 		                                bar_type_count = 0
 		                                multi_bar_labels = ['HM', 'H/C', 'UN']
 		                                for bar in bars:
@@ -1758,7 +1758,7 @@ def home(request):
 		                                axs[i, j].set_ylim(yticks[0], yticks[-1])
 		                                axs[i, j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                                bars = [rect for rect in axs[i, j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                                print('this is the length of bars: %s'%len(bars))
+		                                # print('this is the length of bars: %s'%len(bars))
 		                                bar_type_count = 0
 		                                multi_bar_labels = ['HM', 'H/C', 'UN']
 		                                for bar in bars:
@@ -1772,7 +1772,7 @@ def home(request):
 		                                        pass
 		                                site_name_count += 1
 		                            else: #real single sites.
-		                                print('this is i,j: %s,%s'%(i,j))
+		                                # print('this is i,j: %s,%s'%(i,j))
 		                                #bar
 		                                axs[i, j].xaxis.set_tick_params(width=x_tick_w, length=x_tick_l)
 		                                axs[i, j].yaxis.set_tick_params(width=y_tick_w, length=y_tick_l, labelsize = y_tick_fonsize)
@@ -1798,7 +1798,7 @@ def home(request):
 		                                axs[i, j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                                site_name_count += 1
 		                    else: #empty subplot(s). hide spines & ticks & labels.
-		                        print('this is i,j for empty subplots: %s,%s'%(i,j))
+		                        # print('this is i,j for empty subplots: %s,%s'%(i,j))
 		                        axs[i, j].spines["left"].set_visible(False)
 		                        axs[i, j].spines["right"].set_visible(False)
 		                        axs[i, j].spines["top"].set_visible(False)
@@ -1811,7 +1811,7 @@ def home(request):
 		            last_row_site_num = number_of_sites_inrow
 		        else: #cannot be divided by 4.
 		            last_row_site_num = remainder_num
-		        print('this is last_row_site_num: %s'%last_row_site_num)
+		        # print('this is last_row_site_num: %s'%last_row_site_num)
 		        for j in range(number_of_sites_inrow):
 		            if j < last_row_site_num:  
 		                if max(bar_size[i][j]) > TICKER_THRESHOLD: #use ticker.
@@ -1839,7 +1839,7 @@ def home(request):
 		                        #ax1.set_ylim(yticks[0], yticks[-1])
 		                        axs[j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                        bars = [rect for rect in axs[j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                        print('this is the length of bars: %s'%len(bars))
+		                        # print('this is the length of bars: %s'%len(bars))
 		                        bar_type_count = 0
 		                        multi_bar_labels = ['HM', 'H/C', 'UN']
 		                        for bar in bars:
@@ -1902,7 +1902,7 @@ def home(request):
 		                        axs[j].set_ylim(yticks[0], yticks[-1])
 		                        axs[j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                        bars = [rect for rect in axs[j].get_children() if isinstance(rect, mpl.patches.Rectangle)]
-		                        print('this is the length of bars: %s'%len(bars))
+		                        # print('this is the length of bars: %s'%len(bars))
 		                        bar_type_count = 0
 		                        multi_bar_labels = ['HM', 'H/C', 'UN']
 		                        for bar in bars:
@@ -1916,7 +1916,7 @@ def home(request):
 		                                pass
 		                        site_name_count += 1
 		                    else: #real single sites.
-		                        print('this is i,j: %s,%s'%(i,j))
+		                        # print('this is i,j: %s,%s'%(i,j))
 		                        #bar
 		                        axs[j].xaxis.set_tick_params(width=x_tick_w, length=x_tick_l)
 		                        axs[j].yaxis.set_tick_params(width=y_tick_w, length=y_tick_l, labelsize = y_tick_fonsize)
@@ -1942,7 +1942,7 @@ def home(request):
 		                        axs[j].set_ylabel("PSM", fontsize = bar_ylab_fontsize, fontweight="bold", labelpad = PSM_LABEL_PAD)
 		                        site_name_count += 1
 		            else: #empty subplot(s). hide spines & ticks & labels.
-		                print('this is i,j for empty subplots: %s,%s'%(i,j))
+		                # print('this is i,j for empty subplots: %s,%s'%(i,j))
 		                axs[j].spines["left"].set_visible(False)
 		                axs[j].spines["right"].set_visible(False)
 		                axs[j].spines["top"].set_visible(False)
@@ -1983,24 +1983,24 @@ def home(request):
 		    buf2 = BytesIO()
 		    prs.save(buf2)
 
-		    print('\nStep6: Export All Bar charts as .png')
+		    # print('\nStep6: Export All Bar charts as .png')
 		    # fig.savefig(in_memory_fp, format = 'png')
 
 		    # filenames.append('%s_BarCharts.png'%filename)
 
 		    # Folder name in ZIP archive 
 		    zip_filename = "Results.zip"
-		    print("Creating archive: {:s}".format(zip_filename))
+		    # print("Creating archive: {:s}".format(zip_filename))
 
 		    zip_buffer = BytesIO()
 
 		    with zipfile.ZipFile(zip_buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
 		    	# 2 in-memory files in total.
 		    	fname1 = "%s_Colored.xlsx"%filename
-		    	print("  Writing {:s} in the archive".format(fname1))
+		    	# print("  Writing {:s} in the archive".format(fname1))
 		    	zf.writestr(fname1, buf1.getvalue())
 		    	fname2 = "Plots.pptx"
-		    	print("  Writing {:s} in the archive".format(fname2))
+		    	# print("  Writing {:s} in the archive".format(fname2))
 		    	zf.writestr(fname2, buf2.getvalue())
 
 
