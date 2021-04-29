@@ -1998,10 +1998,5 @@ def data_processing(file):
     	# print("  Writing {:s} in the archive".format(fname2))
     	zf.writestr(fname2, buf2.getvalue())
 
-	# Grab ZIP file from in-memory, make response with correct content-type
-    resp = HttpResponse(zip_buffer.getvalue(), content_type = 'application/x-zip-compressed')
-    # ..and correct content-disposition
-    resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
-
-    return resp
+	return zip_buffer
 

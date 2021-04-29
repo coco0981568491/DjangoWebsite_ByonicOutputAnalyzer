@@ -11,7 +11,12 @@ def home(request):
 
 		async_task("mysite.services.data_processing", file)
 
-		return render(request, "index.html")
+		# Grab ZIP file from in-memory, make response with correct content-type
+	    resp = HttpResponse(task.result.getvalue(), content_type = 'application/x-zip-compressed')
+	    # ..and correct content-disposition
+	    resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+
+	    return resp
 
 	else:
 		return render(request, "index.html")
