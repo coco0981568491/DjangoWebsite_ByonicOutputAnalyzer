@@ -1,2 +1,2 @@
 web: gunicorn website.wsgi
-gunicorn webiste:app --timeout 300
+web: gunicorn webiste:mysite --timeout 300
