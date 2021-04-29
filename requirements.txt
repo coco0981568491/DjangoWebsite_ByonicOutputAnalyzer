@@ -28,6 +28,7 @@ defusedxml==0.6.0
 dj-database-url==0.5.0
 Django==2.2.5
 django-heroku==0.3.1
+django-q
 docutils==0.16
 entrypoints==0.3
 et-xmlfile==1.0.1
@@ -108,6 +109,7 @@ PyYAML==5.3.1
 QDarkStyle==2.8.1
 QtAwesome==0.7.2
 QtPy==1.9.0
+rq
 rope==0.17.0
 seaborn==0.10.1
 Send2Trash==1.5.0

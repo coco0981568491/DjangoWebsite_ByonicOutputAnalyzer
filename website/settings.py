@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mysite',
+    'django_q',
 ]
 
 MIDDLEWARE = [
@@ -134,4 +135,20 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 django_heroku.settings(locals())
 
+Q_CLUSTER = {
+    'name': 'website',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 300,
+    'compress': True,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'label': 'Django Q',
+    'redis': {
+        'host': 'ec2-54-80-245-74.compute-1.amazonaws.com',
+        'password': 'p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b',
+        'port': 6929,
+        'db': 0, }
+}
 

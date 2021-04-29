@@ -1,1 +1,2 @@
-web: gunicorn website.wsgi --timeout 300
+web: gunicorn website.wsgi
+worker: python manage.py qcluster --settings=path.to.my.settings
