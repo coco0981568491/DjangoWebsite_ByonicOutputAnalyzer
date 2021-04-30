@@ -7,7 +7,6 @@ Babel==2.8.0
 backcall==0.2.0
 backports.shutil-get-terminal-size==1.0.0
 bcrypt==3.1.7
-beautifulsoup4==4.9.1
 bkcharts==0.2
 bleach==3.1.5
 boto==2.49.0
@@ -28,7 +27,6 @@ defusedxml==0.6.0
 dj-database-url==0.5.0
 Django==2.2.5
 django-heroku==0.3.1
-django-q
 docutils==0.16
 entrypoints==0.3
 et-xmlfile==1.0.1
@@ -109,6 +107,7 @@ PyYAML==5.3.1
 QDarkStyle==2.8.1
 QtAwesome==0.7.2
 QtPy==1.9.0
+redis
 rq
 rope==0.17.0
 seaborn==0.10.1

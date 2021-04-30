@@ -13,6 +13,7 @@ import re # quickly find float numbers in a string.
 import collections
 import os
 
+# should do the following data processing in the backend using redis
 def data_processing(file):
 	filename = file.name.split('.')[0]
 	sorted_data = pd.read_excel(file, header = 0)
@@ -20,12 +21,7 @@ def data_processing(file):
 	#display(HTML(sorted_data.to_html()))
 	print(sorted_data.columns)
 	sorted_data = sorted_data.rename(columns={'Glycans_x000D_\nPos.' : 'Glycans Pos.', 'Sequence\r\n(unformatted)': 'Sequence', 'Calc._x000D_\nMH' : 'Calc. MH', 'PEP_x000D_\n2D':'PEP 2D'})
-	#sorted_data.columns
 
-	# print('--------------------------------------- Score & PEP2D Selection Process Begins ---------------------------------------')
-	# print('\nStep1: Filter Score & PEP2D -> Delete the peptides without the correct N-glycosylation sequon.\n')
-
-	###########################
 	sorted_data_scoreHightoLow_score200_pep2d0001 = sorted_data.loc[((sorted_data['Score'] > 200) & (sorted_data['PEP 2D'] < 0.001))]
 	#display(HTML(sorted_data_scoreHightoLow_score200_pep2d0001.to_html()))
 	sorted_data_scoreHightoLow_score200_pep2d0001 = sorted_data_scoreHightoLow_score200_pep2d0001.reset_index(drop=True)
@@ -1978,15 +1974,6 @@ def data_processing(file):
 	    buf2 = BytesIO()
 	    prs.save(buf2)
 
-	    # print('\nStep6: Export All Bar charts as .png')
-	    # fig.savefig(in_memory_fp, format = 'png')
-
-	    # filenames.append('%s_BarCharts.png'%filename)
-
-	# Folder name in ZIP archive 
-	zip_filename = "Results.zip"
-	# print("Creating archive: {:s}".format(zip_filename))
-
 	zip_buffer = BytesIO()
 
 	with zipfile.ZipFile(zip_buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
@@ -1998,7 +1985,7 @@ def data_processing(file):
 		# print("  Writing {:s} in the archive".format(fname2))
 		zf.writestr(fname2, buf2.getvalue())
 
-	return zip_buffer
+	# retrieve zipped content stored in-memory
+	value = zip_buffer.getvalue()
 
-def get_results(Task):
-	print(Task.result(wait = -1)) 
+	return value

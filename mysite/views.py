@@ -1,32 +1,40 @@
 from django.shortcuts import render, HttpResponse
-from django_q.tasks import AsyncTask
-from mysite.services import get_results
+from mysite.backend import data_processing
 
+# figure out how to combine rq with django
+import redis
+from rq import Queue
+
+r = redis.Redis()
+q = Queue(connection=r)
 
 
 # Create your views here.
 def home(request):
+
+	# Folder name in ZIP archive 
+	zip_filename = "Results.zip"
+	
 	if request.method == "POST":
 
-		# get data
+		# get data and name it as file for convenience 
 		file = request.FILES["myFile"]
 
-		# instantiate an async task, will return uuid of the task
-		a = AsyncTask("mysite.services.data_processing", file, hook = "mysite.services.get_results")
+		# trigger the backend to process the input file
+		job = q.enqueue(data_processing, file)
 
-		# # run it
-		a.run()
+		q_len = len(q)
 
-		# result = a.result(wait=-1)
+		if job.result == None:
+			return f"Task {job.id} added to the queue at {job.enqueue_at}. {q_len} tasks in the queue"
 
-		# print(result)
+		else:
+			resp = HttpResponse(job.result, content_type = 'application/x-zip-compressed')
+			resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
-		# # Grab ZIP file from in-memory, make response with correct content-type
-		# resp = HttpResponse(result.getvalue(), content_type = 'application/x-zip-compressed')
-		# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+			return resp
 
-		# return resp
-
+		
 	else:
 		return render(request, "index.html")
 
