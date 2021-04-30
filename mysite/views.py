@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
-from django_q.tasks import async_task
+from django_q.tasks import AsyncTask
+
 
 
 # Create your views here.
@@ -9,10 +10,14 @@ def home(request):
 		# get data
 		file = request.FILES["myFile"]
 
-		async_task("mysite.services.data_processing", file)
+		# instantiate an async task
+		a = AsyncTask('mysite.services.data_processing', file)
+
+		# run it
+		a.run()
 
 		# Grab ZIP file from in-memory, make response with correct content-type
-		resp = HttpResponse(task.result.getvalue(), content_type = 'application/x-zip-compressed')
+		resp = HttpResponse(a.result(wait=-1).getvalue(), content_type = 'application/x-zip-compressed')
 		# ..and correct content-disposition
 		resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
