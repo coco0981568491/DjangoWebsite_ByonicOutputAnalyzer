@@ -11,7 +11,7 @@ def home(request):
 		file = request.FILES["myFile"]
 
 		# instantiate an async task
-		a = AsyncTask('mysite.services.data_processing', file)
+		a = AsyncTask("mysite.services.data_processing", file)
 
 		# run it
 		a.run()
