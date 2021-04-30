@@ -1983,20 +1983,20 @@ def data_processing(file):
 
 	    # filenames.append('%s_BarCharts.png'%filename)
 
-    # Folder name in ZIP archive 
-    zip_filename = "Results.zip"
-    # print("Creating archive: {:s}".format(zip_filename))
+	# Folder name in ZIP archive 
+	zip_filename = "Results.zip"
+	# print("Creating archive: {:s}".format(zip_filename))
 
-    zip_buffer = BytesIO()
+	zip_buffer = BytesIO()
 
-    with zipfile.ZipFile(zip_buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
-    	# 2 in-memory files in total.
-    	fname1 = "%s_Colored.xlsx"%filename
-    	# print("  Writing {:s} in the archive".format(fname1))
-    	zf.writestr(fname1, buf1.getvalue())
-    	fname2 = "Plots.pptx"
-    	# print("  Writing {:s} in the archive".format(fname2))
-    	zf.writestr(fname2, buf2.getvalue())
+	with zipfile.ZipFile(zip_buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+		# 2 in-memory files in total.
+		fname1 = "%s_Colored.xlsx"%filename
+		# print("  Writing {:s} in the archive".format(fname1))
+		zf.writestr(fname1, buf1.getvalue())
+		fname2 = "Plots.pptx"
+		# print("  Writing {:s} in the archive".format(fname2))
+		zf.writestr(fname2, buf2.getvalue())
 
 	return zip_buffer
 
