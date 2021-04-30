@@ -20,7 +20,6 @@ def home(request):
 
 		# Grab ZIP file from in-memory, make response with correct content-type
 		resp = HttpResponse(result.getvalue(), content_type = 'application/x-zip-compressed')
-		..and correct content-disposition
 		resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
 		return resp
