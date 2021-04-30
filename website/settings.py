@@ -140,6 +140,7 @@ Q_CLUSTER = {
     'workers': 8,
     'recycle': 500,
     'timeout': 300,
+    'retry': 360
     'compress': True,
     'save_limit': 250,
     'queue_limit': 500,
