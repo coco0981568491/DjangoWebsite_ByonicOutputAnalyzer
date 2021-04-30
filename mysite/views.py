@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from django_q.tasks import AsyncTask
+from django_q.tasks import async_task
 
 
 
@@ -11,16 +11,16 @@ def home(request):
 		file = request.FILES["myFile"]
 
 		# instantiate an async task
-		a = AsyncTask("mysite.services.data_processing", file)
+		async_task("mysite.services.data_processing", file, hook = "mysite.services.get_results")
 
-		# run it
-		a.run()
+		# # run it
+		# a.run()
 
-		result = a.result(wait=-1)
+		# result = a.result(wait=-1)
 
-		print(result)
+		# print(result)
 
-		# Grab ZIP file from in-memory, make response with correct content-type
+		# # Grab ZIP file from in-memory, make response with correct content-type
 		# resp = HttpResponse(result.getvalue(), content_type = 'application/x-zip-compressed')
 		# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
