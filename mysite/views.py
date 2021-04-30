@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django_q.tasks import AsyncTask
-form mysite.services import get_results
+from mysite.services import get_results
 
 
 
