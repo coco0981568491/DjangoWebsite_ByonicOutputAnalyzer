@@ -2000,5 +2000,5 @@ def data_processing(file):
 
 	return zip_buffer
 
-def get_results(task):
-	print(task.result()) 
+def get_results(Task):
+	print(Task.result(wait = -1)) 

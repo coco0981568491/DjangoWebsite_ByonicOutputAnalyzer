@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
-from django_q.tasks import async_task
+from django_q.tasks import AsyncTask
+form mysite.services import get_results
 
 
 
@@ -10,11 +11,11 @@ def home(request):
 		# get data
 		file = request.FILES["myFile"]
 
-		# instantiate an async task
-		async_task("mysite.services.data_processing", file, hook = "mysite.services.get_results")
+		# instantiate an async task, will return uuid of the task
+		a = AsyncTask("mysite.services.data_processing", file, hook = "mysite.services.get_results")
 
 		# # run it
-		# a.run()
+		a.run()
 
 		# result = a.result(wait=-1)
 
