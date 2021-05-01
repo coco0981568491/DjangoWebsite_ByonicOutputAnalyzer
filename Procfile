@@ -1,2 +1,1 @@
-web: gunicorn website.wsgi
-worker: python worker.py
+web: gunicorn website.wsgi --timeout 0
