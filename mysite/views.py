@@ -4,7 +4,8 @@ from mysite.backend import data_processing
 # figure out how to combine rq with django
 import redis
 from rq import Queue
-from mysite.worker import conn
+from . import worker
+from worker import conn
 
 r = redis.Redis()
 q = Queue(connection=conn)
