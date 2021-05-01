@@ -4,9 +4,10 @@ from mysite.backend import data_processing
 # figure out how to combine rq with django
 import redis
 from rq import Queue
+from worker import conn
 
 r = redis.Redis()
-q = Queue(connection=r)
+q = Queue(connection=conn)
 
 
 # Create your views here.
@@ -14,7 +15,7 @@ def home(request):
 
 	# Folder name in ZIP archive 
 	zip_filename = "Results.zip"
-	
+
 	if request.method == "POST":
 
 		# get data and name it as file for convenience 
