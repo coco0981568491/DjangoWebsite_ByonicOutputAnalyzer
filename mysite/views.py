@@ -5,7 +5,7 @@ from mysite.backend import data_processing
 import redis
 from rq import Queue
 from . import worker
-from worker import conn
+from worker import *
 
 r = redis.Redis()
 q = Queue(connection=conn)
