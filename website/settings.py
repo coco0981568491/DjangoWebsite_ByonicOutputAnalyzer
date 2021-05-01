@@ -14,7 +14,7 @@ import os
 import django_heroku
 import dj_database_url
 from decouple import config
-import urlparse
+from urllib.parse import urlparse
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -136,7 +136,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 django_heroku.settings(locals())
 
 
-redis_url = urlparse.urlparse(os.environ.get('REDISTOGO_URL', 'redis://localhost:6959'))
+redis_url = urlparse(os.environ.get('REDISTOGO_URL', 'redis://localhost:6959'))
 
 CACHES = {
     'default': {
