@@ -27,7 +27,7 @@ def home(request):
 		q_len = len(q)
 
 		if job.result == None:
-			return f"Task {job.id} added to the queue at {job.enqueue_at}. {q_len} tasks in the queue"
+			return f"Task {job.id} added to the queue at {job.enqueued_at}. {q_len} tasks in the queue"
 
 		else:
 			resp = HttpResponse(job.result, content_type = 'application/x-zip-compressed')
