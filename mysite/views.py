@@ -14,7 +14,7 @@ def home(request):
 		# send to celery worker
 		task = data_processing.delay(file)
 
-		res = AsyncResult(task.task_id)
+		res = AsyncResult(task)
 
 		# check if the task has been finished
 		if res.ready(): 
