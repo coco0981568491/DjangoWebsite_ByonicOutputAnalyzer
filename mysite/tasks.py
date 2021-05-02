@@ -15,10 +15,9 @@ from IPython.display import display, HTML
 import re # quickly find float numbers in a string.
 import collections
 import os
-from .views.home import filename
 
 @shared_task(bind = True)
-def data_processing(self, file_bytes_base64_str):
+def data_processing(self, file_bytes_base64_str, filename = filename):
 
 	# record progress info
 	progress_recorder = ProgressRecorder(self)
