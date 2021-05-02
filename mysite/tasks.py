@@ -15,15 +15,25 @@ from IPython.display import display, HTML
 import re # quickly find float numbers in a string.
 import collections
 import os
+from .views.home import filename
 
 @shared_task(bind = True)
-def data_processing(self, file):
+def data_processing(self, file_bytes_base64_str):
 
 	# record progress info
 	progress_recorder = ProgressRecorder(self)
 
 	# main function
-	filename = file.name.split('.')[0]
+	file_bytes_base64 = file_bytes_base64_str.encode('utf-8')
+	file_bytes = base64.b64decode(file_bytes_base64)
+
+	# Write the file to a temporary location, deletion is guaranteed
+	with tempfile.TemporaryDirectory() as tmp_dir:
+	    tmp_file = os.path.join(tmp_dir, 'something.zip')
+	    with open(tmp_file, 'wb') as file:
+	        file.write(file_bytes)
+
+	# filename = file.name.split('.')[0]
 	sorted_data = pd.read_excel(file, header = 0)
 	sorted_data = sorted_data.fillna(0)
 	print(sorted_data.columns)

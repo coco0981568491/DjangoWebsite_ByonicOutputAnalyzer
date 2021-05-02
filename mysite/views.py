@@ -13,6 +13,7 @@ def home(request):
 
 		# get data and name it as file for convenience 
 		file = request.FILES["myFile"]
+		filename = file.name
 
 		# Celery does not know how to serialize complex objects such as file objects. 
 		# However, this can be solved pretty easily. 
@@ -23,18 +24,10 @@ def home(request):
 		file_bytes_base64 = base64.b64encode(file_bytes)
 		file_bytes_base64_str = file_bytes_base64.decode('utf-8') # this is a str
 
-		# (Celery worker task)
-		file_bytes_base64 = file_bytes_base64_str.encode('utf-8')
-		file_bytes = base64.b64decode(file_bytes_base64)
-
-		# Write the file to a temporary location, deletion is guaranteed
-		with tempfile.TemporaryDirectory() as tmp_dir:
-		    tmp_file = os.path.join(tmp_dir, 'something.zip')
-		    with open(tmp_file, 'wb') as file:
-		        file.write(file_bytes)
+		
 
 		# (...send string through Celery...)
-		task = data_processing.delay(file)
+		task = data_processing.delay(file_bytes_base64_str)
 
 		res = AsyncResult(task)
 
