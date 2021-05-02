@@ -1,1 +1,2 @@
-web: gunicorn website.wsgi --timeout 0
+web: gunicorn website.wsgi
+worker: celery worker --app=tasks.app

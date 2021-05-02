@@ -15,6 +15,7 @@ import django_heroku
 import dj_database_url
 from decouple import config
 from urllib.parse import urlparse
+from .celery import app
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mysite',
+    'django_celery_results',
+    'celery_progress',
 ]
 
 MIDDLEWARE = [
@@ -135,8 +138,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 django_heroku.settings(locals())
 
-redis_url = urlparse(os.environ.get('REDIS_URL', 'redis://localhost:6959'))
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
 
-
-
-
+# use heroku redis as the broker
+app.conf.update(BROKER_URL='redis://:p205e87da5963e51c4765e52a4a7f37fd3e311ef82d806bd1bc208d07c7113a61@ec2-54-237-8-147.compute-1.amazonaws.com:9580',
+                CELERY_RESULT_BACKEND='django-db')

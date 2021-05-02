@@ -1,3 +1,6 @@
+from __future__ import absolute_import, unicode_literals
+from celery import shared_task
+from celery_progress.backend import ProgressRecorder
 import zipfile
 from pptx import Presentation
 from pptx.util import Inches
@@ -13,17 +16,21 @@ import re # quickly find float numbers in a string.
 import collections
 import os
 
-# should do the following data processing in the backend using redis
+@shared_task(bind = True)
 def data_processing(file):
+
+	# record progress info
+	progress_recorder = ProgressRecorder(self)
+
+	# main function
 	filename = file.name.split('.')[0]
 	sorted_data = pd.read_excel(file, header = 0)
 	sorted_data = sorted_data.fillna(0)
-	#display(HTML(sorted_data.to_html()))
 	print(sorted_data.columns)
 	sorted_data = sorted_data.rename(columns={'Glycans_x000D_\nPos.' : 'Glycans Pos.', 'Sequence\r\n(unformatted)': 'Sequence', 'Calc._x000D_\nMH' : 'Calc. MH', 'PEP_x000D_\n2D':'PEP 2D'})
 
 	sorted_data_scoreHightoLow_score200_pep2d0001 = sorted_data.loc[((sorted_data['Score'] > 200) & (sorted_data['PEP 2D'] < 0.001))]
-	#display(HTML(sorted_data_scoreHightoLow_score200_pep2d0001.to_html()))
+	
 	sorted_data_scoreHightoLow_score200_pep2d0001 = sorted_data_scoreHightoLow_score200_pep2d0001.reset_index(drop=True)
 	sequence = sorted_data_scoreHightoLow_score200_pep2d0001['Sequence'].tolist()
 	all_aa = ['A','R', 'N', 'D', 'B', 'C', 'E', 'Q', 'Z', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'S', 'T', 'W', 'Y', 'V', 'P']
@@ -35,8 +42,10 @@ def data_processing(file):
 	sorted_data_scoreHightoLow_score200_pep2d0001.insert(sorted_data_scoreHightoLow_score200_pep2d0001.columns.get_loc('Sequence') + 1 , 'Pure Sequence', pure_seq , True)
 	# print('The original data size:')
 	# print(sorted_data_scoreHightoLow_score200_pep2d0001.shape)
-	#display(HTML(sorted_data_scoreHightoLow_score200_pep2d0001.to_html()))
-	#sorted_data_scoreHightoLow_score200_pep2d0001.to_excel('%s_sorted_data_score200_pep2d0001.xlsx'%filename, index = False)
+	
+	# progress check 1
+	progress_recorder.set_progress(1, 10, 'Still processing...')
+
 	aa_for_N_sequon = ['A','R', 'N', 'D', 'B', 'C', 'E', 'Q', 'Z', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'S', 'T', 'W', 'Y', 'V']
 	seq_count = 0
 	delete_ind = []
@@ -150,6 +159,9 @@ def data_processing(file):
 	new_glyco_site = sum(new_glyco_site, [])
 	#print('this is new_glyco_site: %s'%new_glyco_site)
 
+	# progress check 2
+	progress_recorder.set_progress(2, 10, 'Still processing...')
+
 	##add a column called 'glycosylation site' for real glycan positions. (pos. number + glycan posi)
 	glycan_posi_lst = sorted_data_scoreHightoLow_score200_pep2d0001['Glycans Pos.'].tolist()
 	glycan_posi_lst = [int(posi) if type(posi) == float else posi for posi in glycan_posi_lst]
@@ -245,6 +257,9 @@ def data_processing(file):
 	# print('this is revised glycosylation_site: %s'%glycosylation_site)
 	sorted_data_scoreHightoLow_score200_pep2d0001.insert(2, 'Glycosylation Site', glycosylation_site, True)
 
+	# progress check 3
+	progress_recorder.set_progress(3, 10, 'Still processing...')
+
 	#display(HTML(sorted_data_scoreHightoLow_score200_pep2d0001.to_html()))
 
 	# print('\nStep2: Sort Score within each glycosylation site & get unique Calc.MH while recording PSM.\n')
@@ -319,6 +334,9 @@ def data_processing(file):
 	sorted_data_scoreHightoLow_score200_pep2d0001_difMH = sorted_data_scoreHightoLow_score200_pep2d0001.loc[highest_score_mh_ind, :]
 	#print('Export file: ... scoreHightoLow_score200_pep2d0001_AddPSMdifMH')
 	#sorted_data_scoreHightoLow_score200_pep2d0001_difMH.to_excel('%s_scoreHightoLow_score200_pep2d0001_AddPSMdifMH.xlsx'%filename, index = False)
+
+	# progress check 4
+	progress_recorder.set_progress(4, 10, 'This will take some time, please wait...')
 
 	# print('\nStep3: Start glycan type analysis.')
 	glycans = sorted_data_scoreHightoLow_score200_pep2d0001_difMH['Glycans'].tolist()
@@ -438,6 +456,9 @@ def data_processing(file):
 
 	#print('this is glycan_data_remain: %s'%glycan_data_remain)  
 	#print('this is the len of glycan_data_remain: %s'%len(glycan_data_remain))
+
+	# progress check 5
+	progress_recorder.set_progress(5, 10, 'This will take some time, please wait...')
 
 	#### SORTING STARTS: the double (multi) sites should be singled out to perform another set of classification method. ####
 	to_remain_ind = 0
@@ -579,6 +600,8 @@ def data_processing(file):
 	sorted_data_scoreHightoLow_score200_pep2d0001_difMH.insert(sorted_data_scoreHightoLow_score200_pep2d0001_difMH.columns.get_loc('Glycans') + 1 , 'Glycan Type Analysis Result', glycan_analysis_result , True)
 	print('\nExport file: ... scoreHightoLow_score200_pep2d0001_AddPSMdifMHAddGlycanTypeAnalysisColored')
 
+	
+
 	##color the groups w/ light blue, light green, light yellow.
 	def highlight(x):
 	    colors = ['#ADD8E6', '#F0FFF0', '#FFFFFF'] #HEX color code.
@@ -606,6 +629,9 @@ def data_processing(file):
 	writer.save()
 
 	# print('\nFile exported.')
+
+	# progress check 6
+	progress_recorder.set_progress(6, 10, 'Almost there...')
 
 	# print('\nStep4: Summary of the glycan type composition within each site.')
 	glycosylation_site = sorted_data_scoreHightoLow_score200_pep2d0001_difMH['Glycosylation Site'].tolist()
@@ -740,6 +766,10 @@ def data_processing(file):
 	colors = ['#008000', '#ffffff','#ff69b4','#d3d3d3'] 
 	multi_colors = ['#008000', '#ffc0cb', '#d3d3d3']
 	leg_colors = ['#008000', '#ffffff','#ff69b4', '#ffc0cb', '#d3d3d3']
+
+
+	# progress check 7
+	progress_recorder.set_progress(7, 10, 'Almost there...')
 
 	##start plotting.
 	## PLOT BAR & PIE COMBINED CHARTS FIRST.
@@ -1298,6 +1328,9 @@ def data_processing(file):
 	#plt.tight_layout()
 	# print('\nStep6: Export Pie & Bar charts as .png files.')
 
+	# progress check 8
+	progress_recorder.set_progress(8, 10, 'Almost there...')
+
 	# save plt to bytesio
 	in_memory_fp0 = BytesIO()
 	plt.savefig(in_memory_fp0)
@@ -1314,9 +1347,7 @@ def data_processing(file):
 	pic = slide.shapes.add_picture(in_memory_fp0, left, top)
 	# fig.savefig('%s_BarPieCharts.png'%filename)
 
-	# store the plot into in-memory
-	# fig.savefig(in_memory_fp, format = 'png') 
-	# filenames.append('%s_BarPieCharts.png'%filename)
+	
 
 	## DRAW ALL PIE CHARTS (if site num > 4).
 	if len(original_pie_size) > 4: 
@@ -1467,6 +1498,9 @@ def data_processing(file):
 
 	    # fig.savefig(in_memory_fp, format = 'png')
 	    # filenames.append('%s_PieCharts.png'%filename)
+
+	    # progress check 9
+	    progress_recorder.set_progress(9, 10, 'Almost there...')
 
 	    number_of_sites_inrow = 4
 	    full_row_num = len(original_bar_size)//number_of_sites_inrow
@@ -1986,6 +2020,12 @@ def data_processing(file):
 		zf.writestr(fname2, buf2.getvalue())
 
 	# retrieve zipped content stored in-memory
+	# getvalue: Return bytes containing the entire contents of the buffer
+	# the syntax for bytes literals is largely the same as that for string literals
+	# except that a b prefix is added
 	value = zip_buffer.getvalue()
+
+	# progress check 10
+	progress_recorder.set_progress(10, 10, 'Done! The processed results will be automatically downloaded :)')
 
 	return value
