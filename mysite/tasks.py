@@ -17,7 +17,7 @@ import collections
 import os
 
 @shared_task(bind = True)
-def data_processing(self, file_bytes_base64_str, filename = filename):
+def data_processing(self, file_bytes_base64_str, filename):
 
 	# record progress info
 	progress_recorder = ProgressRecorder(self)
