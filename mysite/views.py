@@ -36,7 +36,7 @@ def home(request):
 
 		task = test.delay(1)
 
-		return render(request, "progress.html", context={'task_id': result.task_id})
+		return render(request, "progress.html")
 
 		# check if the task has been finished
 		# if res.ready(): 
