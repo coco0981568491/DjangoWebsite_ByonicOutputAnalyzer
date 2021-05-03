@@ -159,7 +159,6 @@ CELERY_TASK_SERIALIZER = 'pickle'
 CELERY_ACCEPT_CONTENT = ['pickle']
 
 # use heroku redis as the broker
-# app.conf.update(BROKER_URL='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b@ec2-54-80-245-74.compute-1.amazonaws.com:6929',
-#                 CELERY_RESULT_BACKEND='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b@ec2-54-80-245-74.compute-1.amazonaws.com:6929')
+app.conf.update(BROKER_URL='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b@ec2-54-80-245-74.compute-1.amazonaws.com:6929',
+                CELERY_RESULT_BACKEND='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b@ec2-54-80-245-74.compute-1.amazonaws.com:6929')
 
-app.conf.update(BROKER_URL='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b@ec2-54-80-245-74.compute-1.amazonaws.com:6929')
