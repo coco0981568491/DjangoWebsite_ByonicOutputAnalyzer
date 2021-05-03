@@ -16,6 +16,7 @@ import dj_database_url
 from decouple import config
 from urllib.parse import urlparse
 from .celery import app
+from kombu.serialization import register
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -138,8 +139,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 django_heroku.settings(locals())
 
-CELERY_ACCEPT_CONTENT = ['pickle']
-CELERY_TASK_SERIALIZER = 'pickle'
+# CELERY_ACCEPT_CONTENT = ['pickle']
+# CELERY_TASK_SERIALIZER = 'pickle'
+
+
+CELERY_TASK_SERIALIZER = 'json', 'pickle'
+
+CELERY_ACCEPT_CONTENT = ['json','pickle']
 
 # use heroku redis as the broker
 app.conf.update(BROKER_URL='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b@ec2-54-80-245-74.compute-1.amazonaws.com:6929',
