@@ -142,6 +142,12 @@ django_heroku.settings(locals())
 # CELERY_ACCEPT_CONTENT = ['pickle']
 # CELERY_TASK_SERIALIZER = 'pickle'
 
+# register_json()
+# register_pickle()
+
+registry.enable('json')
+registry.enable('pickle')
+
 
 CELERY_TASK_SERIALIZER = 'json', 'pickle'
 
