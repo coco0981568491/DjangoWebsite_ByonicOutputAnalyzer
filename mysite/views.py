@@ -34,7 +34,7 @@ def home(request):
 
 		# res = AsyncResult(task)
 
-		task = test.delay(1)
+		task = test.delay(100)
 
 		return render(request, "progress.html", context={'task_id': task.task_id})
 
