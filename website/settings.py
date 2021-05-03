@@ -139,19 +139,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 django_heroku.settings(locals())
 
-# CELERY_ACCEPT_CONTENT = ['pickle']
-# CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_ACCEPT_CONTENT = ['pickle']
+CELERY_TASK_SERIALIZER = 'pickle'
 
-register_json()
+# register_json()
 register_pickle()
 
 # registry.enable('json')
 # registry.enable('pickle')
 
 
-CELERY_TASK_SERIALIZER = 'json', 'pickle'
+# CELERY_TASK_SERIALIZER = 'json', 'pickle'
 
-CELERY_ACCEPT_CONTENT = ['json','pickle']
+# CELERY_ACCEPT_CONTENT = ['json','pickle']
 
 # use heroku redis as the broker
 app.conf.update(BROKER_URL='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b@ec2-54-80-245-74.compute-1.amazonaws.com:6929',
