@@ -142,5 +142,5 @@ CELERY_ACCEPT_CONTENT = ['pickle']
 CELERY_TASK_SERIALIZER = 'pickle'
 
 # use heroku redis as the broker
-app.conf.update(BROKER_URL='redis://:p205e87da5963e51c4765e52a4a7f37fd3e311ef82d806bd1bc208d07c7113a61@ec2-54-237-8-147.compute-1.amazonaws.com:9580',
+app.conf.update(BROKER_URL='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b@ec2-54-80-245-74.compute-1.amazonaws.com:6930',
                 CELERY_RESULT_BACKEND='django-db')
