@@ -15,12 +15,16 @@ from IPython.display import display, HTML
 import re # quickly find float numbers in a string.
 import collections
 import os
+from time import sleep
 
 @shared_task(bind = True)
 def data_processing(self, file_bytes_base64_str, filename):
 
 	# record progress info
 	progress_recorder = ProgressRecorder(self)
+
+	# progress check 0
+	progress_recorder.set_progress(0.5, 10, 'Still processing...')
 
 	# main function
 	file_bytes_base64 = file_bytes_base64_str.encode('utf-8')
@@ -2038,3 +2042,11 @@ def data_processing(self, file_bytes_base64_str, filename):
 	progress_recorder.set_progress(10, 10, 'Done! The processed results will be automatically downloaded :)')
 
 	return value
+
+@shared_task(bind=True)
+def test(self, duration):
+	progress_recorder = ProgressRecorder(self)
+	for i in range(100):
+		sleep(duration)
+		progress_recorder.set_progress(i+1, 5)
+	return 'Running...' 
