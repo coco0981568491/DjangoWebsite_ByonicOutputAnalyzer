@@ -4,7 +4,6 @@ from .tasks import test
 from celery.result import AsyncResult
 from io import BytesIO
 import base64
-import tempfile
 import os
 
 # Create your views here.

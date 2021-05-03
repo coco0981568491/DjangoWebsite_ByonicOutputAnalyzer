@@ -17,6 +17,7 @@ import collections
 import os
 from time import sleep
 import base64
+import tempfile
 
 @shared_task(bind = True)
 def data_processing(self, file, filename):
