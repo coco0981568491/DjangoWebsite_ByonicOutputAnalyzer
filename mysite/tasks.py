@@ -18,7 +18,7 @@ import os
 from time import sleep
 
 @shared_task(bind = True)
-def data_processing(self, file_bytes_base64_str, filename):
+def data_processing(self, file, filename):
 
 	# record progress info
 	progress_recorder = ProgressRecorder(self)
@@ -26,15 +26,15 @@ def data_processing(self, file_bytes_base64_str, filename):
 	# progress check 0
 	progress_recorder.set_progress(0.5, 10, 'Still processing...')
 
-	# main function
-	file_bytes_base64 = file_bytes_base64_str.encode('utf-8')
-	file_bytes = base64.b64decode(file_bytes_base64)
+	# # main function
+	# file_bytes_base64 = file_bytes_base64_str.encode('utf-8')
+	# file_bytes = base64.b64decode(file_bytes_base64)
 
-	# Write the file to a temporary location, deletion is guaranteed
-	with tempfile.TemporaryDirectory() as tmp_dir:
-	    tmp_file = os.path.join(tmp_dir, 'something.zip')
-	    with open(tmp_file, 'wb') as file:
-	        file.write(file_bytes)
+	# # Write the file to a temporary location, deletion is guaranteed
+	# with tempfile.TemporaryDirectory() as tmp_dir:
+	#     tmp_file = os.path.join(tmp_dir, 'something.zip')
+	#     with open(tmp_file, 'wb') as file:
+	#         file.write(file_bytes)
 
 	# filename = file.name.split('.')[0]
 	sorted_data = pd.read_excel(file, header = 0)
