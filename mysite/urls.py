@@ -5,5 +5,4 @@ from django.conf import settings
 
 urlpatterns = [
     path('', home),
-    # path('upload/', upload)
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
