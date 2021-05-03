@@ -1,2 +1,2 @@
 web: gunicorn website.wsgi
-worker: celery worker --app=tasks.app
+worker: celery -A mysite.tasks worker 
