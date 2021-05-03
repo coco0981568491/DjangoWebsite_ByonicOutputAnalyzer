@@ -2044,9 +2044,11 @@ def data_processing(self, file_bytes_base64_str, filename):
 	return value
 
 @shared_task(bind=True)
-def test(self, duration):
-	progress_recorder = ProgressRecorder(self)
-	for i in range(100):
-		sleep(duration)
-		progress_recorder.set_progress(i+1, 100)
-	return 'Running...' 
+def test(self, seconds):
+    progress_recorder = ProgressRecorder(self)
+    result = 0
+    for i in range(seconds):
+        time.sleep(1)
+        result += i
+        progress_recorder.set_progress(i + 1, seconds)
+    return result 
