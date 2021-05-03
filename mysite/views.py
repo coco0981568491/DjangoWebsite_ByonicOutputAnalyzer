@@ -21,9 +21,9 @@ def home(request):
 		# What I do is to encode/decode the file to its Base64 string representation. 
 		# This allows me to send the file directly through Celery.
 
-		# file_bytes = file.read()
-		# file_bytes_base64 = base64.b64encode(file_bytes)
-		# file_bytes_base64_str = file_bytes_base64.decode('utf-8') # this is a str
+		file_bytes = file.read()
+		file_bytes_base64 = base64.b64encode(file_bytes)
+		file = file_bytes_base64.decode('utf-8') # this is a str
 
 		
 
