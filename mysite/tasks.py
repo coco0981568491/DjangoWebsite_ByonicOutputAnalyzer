@@ -27,7 +27,7 @@ def data_processing(self, file, filename):
 	progress_recorder.set_progress(0.5, 10, 'Still processing...')
 
 	# main function
-	file_bytes_base64 = file_bytes_base64_str.encode('utf-8')
+	file_bytes_base64 = file.encode('utf-8')
 	file_bytes = base64.b64decode(file_bytes_base64)
 
 	# Write the file to a temporary location, deletion is guaranteed
