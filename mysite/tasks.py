@@ -37,6 +37,7 @@ def data_processing(self, file, filename):
 	    tmp_file = os.path.join(tmp_dir, 'something.zip')
 	    with open(tmp_file, 'wb') as file:
 	        file.write(file_bytes)
+	        file.close()
 
 	# filename = file.name.split('.')[0]
 	sorted_data = pd.read_excel(file, header = 0)
