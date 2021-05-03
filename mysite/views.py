@@ -34,8 +34,8 @@ def home(request):
 
 		# res = AsyncResult(task)
 
-		task = test.delay(10)
-		
+		task = test.delay(1)
+
 		return render(request, "progress.html")
 
 		# check if the task has been finished
