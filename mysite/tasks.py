@@ -2048,7 +2048,7 @@ def test(self, seconds):
     progress_recorder = ProgressRecorder(self)
     result = 0
     for i in range(seconds):
-        time.sleep(1)
+        sleep(1)
         result += i
         progress_recorder.set_progress(i + 1, seconds)
     return result 
