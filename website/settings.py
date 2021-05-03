@@ -16,7 +16,7 @@ import dj_database_url
 from decouple import config
 from urllib.parse import urlparse
 from .celery import app
-from kombu.serialization import registry
+from kombu.serialization import register_json, register_pickle 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -142,11 +142,11 @@ django_heroku.settings(locals())
 # CELERY_ACCEPT_CONTENT = ['pickle']
 # CELERY_TASK_SERIALIZER = 'pickle'
 
-# register_json()
-# register_pickle()
+register_json()
+register_pickle()
 
-registry.enable('json')
-registry.enable('pickle')
+# registry.enable('json')
+# registry.enable('pickle')
 
 
 CELERY_TASK_SERIALIZER = 'json', 'pickle'
