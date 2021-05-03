@@ -19,5 +19,5 @@ from django.urls import path, re_path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("mysite.urls")),
-    re_path(r'^celery-progress/', include('celery_progress.urls')),
+    path('', include('celery_progress.urls')),
 ]
