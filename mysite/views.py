@@ -27,7 +27,9 @@ def home(request):
 		
 
 		# (...send string through Celery...)
-		task = data_processing.delay(file_bytes_base64_str, filename)
+		# task = data_processing.delay(file_bytes_base64_str, filename)
+
+		data_processing.delay(file_bytes_base64_str, filename)
 
 		# res = AsyncResult(task)
 
