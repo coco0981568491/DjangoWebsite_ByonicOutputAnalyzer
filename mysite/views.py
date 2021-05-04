@@ -35,7 +35,7 @@ def home(request):
 
 		# return render(request, "progress.html", context={'task_id': task.task_id})
 
-		print('this is the task status: %s'%task)
+		print('this is the task status: %s'%task.status)
 
 		# # check if the task has been finished
 		# if task.successful() == True: 
