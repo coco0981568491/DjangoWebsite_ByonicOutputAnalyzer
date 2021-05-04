@@ -60,7 +60,7 @@ def home(request):
 		# else:
 		# 	return render(request, "progress.html", context={'task_id': task.task_id})
 
-		return return render(request, "progress.html", context={'task_id': task.task_id})
+		return render(request, "progress.html", context={'task_id': task.task_id})
 
 	else:
 		return render(request, "index.html")
