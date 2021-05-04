@@ -33,13 +33,13 @@ def data_processing(self, file, filename):
 	file_bytes = base64.b64decode(file_bytes_base64)
 
 	# Write the file to a temporary location, deletion is guaranteed
-	with tempfile.TemporaryDirectory() as tmp_dir:
-	    tmp_file = os.path.join(tmp_dir, 'something.zip')
-	    with open(tmp_file, 'wb') as file:
-	        file.write(file_bytes)
-	        # read the file before it closes.
-	        sorted_data = pd.read_excel(file, header = 0)
+	# with tempfile.TemporaryDirectory() as tmp_dir:
+	#     tmp_file = os.path.join(tmp_dir, 'something.zip')
+	#     with open(tmp_file, 'wb') as file:
+	#         file.write(file_bytes)
 
+	# write the file to bytesio & read in as dataframe
+	sorted_data = pd.read_excel(BytesIO(file_bytes), header = 0)
 	sorted_data = sorted_data.fillna(0)
 	print(sorted_data.columns)
 	sorted_data = sorted_data.rename(columns={'Glycans_x000D_\nPos.' : 'Glycans Pos.', 'Sequence\r\n(unformatted)': 'Sequence', 'Calc._x000D_\nMH' : 'Calc. MH', 'PEP_x000D_\n2D':'PEP 2D'})
