@@ -2038,12 +2038,18 @@ def data_processing(self, file, filename):
 	# getvalue: Return bytes containing the entire contents of the buffer
 	# the syntax for bytes literals is largely the same as that for string literals
 	# except that a b prefix is added
+
+	# value here is bytes
 	value = zip_buffer.getvalue()
+
+	# convert bytes back to base64 to serialize by kombu
+	value_base64 = base64.b64encode(value)
+	value_base64_str = value_base64.decode('utf-8') # this is a str
 
 	# progress check 10
 	progress_recorder.set_progress(10, 10, 'Done! The processed results will be automatically downloaded :)')
 
-	return value
+	return value_base64_str
 
 @shared_task(bind=True)
 def test(self, seconds):

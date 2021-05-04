@@ -42,7 +42,12 @@ def home(request):
 
 			zip_filename = 'Results.zip'
 
-			resp = HttpResponse(task.get(), content_type = 'application/x-zip-compressed')
+			# convert results in base64 str back into bytes
+			results_bytes_base64 = task.get().encode('utf-8')
+			results_bytes = base64.b64decode(results_bytes_base64)
+			
+
+			resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
 			resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
 			return resp
