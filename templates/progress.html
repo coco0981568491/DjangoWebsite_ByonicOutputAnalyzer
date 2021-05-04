@@ -15,23 +15,25 @@
 
 
 {% if task_id %}
-	<script type="text/javascript">
+	<script>
 		
-		// JQuery
-		var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
+	// JQuery
+	$(function () {
+	var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
 
-		function customResult(resultElement, result) {
-			$( resultElement ).append(
-				$('<p>').text('base64 string ' + result)
-				);
-		}
-		$(function () {
-			CeleryProgressBar.initProgressBar(progressUrl, {
-				onResult: customResult,
-			})
-		});
+	function customResult(resultElement, result) {
+		$( resultElement ).append(
+			$('<p>').text('base64 string ' + result)
+			);
+	}
+	$(function () {
+		CeleryProgressBar.initProgressBar(progressUrl, {
+			onResult: customResult,
+		})
+	});
 	</script>
 {% endif %}
+
 
 </body>	
 </html>
