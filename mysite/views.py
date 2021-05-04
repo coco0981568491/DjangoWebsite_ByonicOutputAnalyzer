@@ -32,7 +32,7 @@ def home(request):
 		task_id = task.task_id
 
 		# wait until task is ready, and return its result
-		status = task.AsyncResult(task_id).status
+		status = task.status
 		
 		# data_processing.delay(file_bytes_base64_str, filename)
 
