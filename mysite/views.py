@@ -37,26 +37,30 @@ def home(request):
 
 		# return render(request, "progress.html", context={'task_id': task.task_id})
 
-		# check if the task has been finished
-		if task.successful() == True: 
+		print('this is the task status: %s'%task.state())
 
-			print('this is the task status: %s'%task.state())
+		# # check if the task has been finished
+		# if task.successful() == True: 
 
-			# zip_filename = 'Results.zip'
+		# 	print('this is the task status: %s'%task.state())
 
-			# # convert results in base64 str back into bytes
-			# results_bytes_base64 = task.get().encode('utf-8')
-			# results_bytes = base64.b64decode(results_bytes_base64)
+		# 	# zip_filename = 'Results.zip'
+
+		# 	# # convert results in base64 str back into bytes
+		# 	# results_bytes_base64 = task.get().encode('utf-8')
+		# 	# results_bytes = base64.b64decode(results_bytes_base64)
 			
 
-			# resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
-			# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+		# 	# resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
+		# 	# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
-			# return resp
-			return render(request, "index.html")
+		# 	# return resp
+		# 	return render(request, "index.html")
 
-		else:
-			return render(request, "progress.html", context={'task_id': task.task_id})
+		# else:
+		# 	return render(request, "progress.html", context={'task_id': task.task_id})
+
+		return return render(request, "progress.html", context={'task_id': task.task_id})
 
 	else:
 		return render(request, "index.html")
