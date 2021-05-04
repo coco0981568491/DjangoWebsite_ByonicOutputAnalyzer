@@ -42,19 +42,20 @@ def home(request):
 		# # check if the task has been finished
 		if status == 'SUCCESS': 
 
-			results = task.get()
+			# results = task.get()
 
-			zip_filename = 'Results.zip'
+			# zip_filename = 'Results.zip'
 
-			# convert results in base64 str back into bytes
-			results_bytes_base64 = results.encode('utf-8')
-			results_bytes = base64.b64decode(results_bytes_base64)
+			# # convert results in base64 str back into bytes
+			# results_bytes_base64 = results.encode('utf-8')
+			# results_bytes = base64.b64decode(results_bytes_base64)
 			
 
-			resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
-			resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+			# resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
+			# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
-			return resp
+			# return resp
+			return render(request, "test.html")
 
 		else:
 			return render(request, "progress.html", context={'task_id': task.task_id})
