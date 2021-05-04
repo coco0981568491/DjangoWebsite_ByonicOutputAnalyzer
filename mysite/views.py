@@ -29,36 +29,35 @@ def home(request):
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
 
-		# data_processing.delay(file_bytes_base64_str, filename)
+		# wait until task is ready, and return its result
+		results = task.get()
 
-		# task = test.delay(100)
+		# data_processing.delay(file_bytes_base64_str, filename)
 
 		# return render(request, "progress.html", context={'task_id': task.task_id})
 
-		print('this is the task status: %s'%task.status)
+		# print('this is the task status: %s'%task.status)
 
 		# # check if the task has been finished
-		# if task.successful() == True: 
+		if results == None: 
 
-		# 	print('this is the task status: %s'%task.state())
+			return render(request, "progress.html", context={'task_id': task.task_id})
+			return render(request, "index.html")
 
-		# 	# zip_filename = 'Results.zip'
+		else:
+			# print('this is the task status: %s'%task.state())
 
-		# 	# # convert results in base64 str back into bytes
-		# 	# results_bytes_base64 = task.get().encode('utf-8')
-		# 	# results_bytes = base64.b64decode(results_bytes_base64)
+			zip_filename = 'Results.zip'
+
+			# convert results in base64 str back into bytes
+			results_bytes_base64 = results.encode('utf-8')
+			results_bytes = base64.b64decode(results_bytes_base64)
 			
 
-		# 	# resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
-		# 	# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+			resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
+			resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
-		# 	# return resp
-		# 	return render(request, "index.html")
-
-		# else:
-		# 	return render(request, "progress.html", context={'task_id': task.task_id})
-
-		return render(request, "progress.html", context={'task_id': task.task_id})
+			return resp
 
 	else:
 		return render(request, "index.html")
