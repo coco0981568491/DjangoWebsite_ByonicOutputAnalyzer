@@ -42,7 +42,6 @@ def home(request):
 		if results == None: 
 
 			return render(request, "progress.html", context={'task_id': task.task_id})
-			return render(request, "index.html")
 
 		else:
 			# print('this is the task status: %s'%task.state())
