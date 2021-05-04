@@ -30,8 +30,9 @@ def home(request):
 		task = data_processing.delay(file, filename)
 
 		# wait until task is ready, and return its result
-		results = task.get()
-
+		status = task.status
+		print('###### this is the task status ######')
+		print(status)
 		# data_processing.delay(file_bytes_base64_str, filename)
 
 		# return render(request, "progress.html", context={'task_id': task.task_id})
@@ -39,12 +40,9 @@ def home(request):
 		# print('this is the task status: %s'%task.status)
 
 		# # check if the task has been finished
-		if results == None: 
+		if status == 'SUCCESS': 
 
-			return render(request, "progress.html", context={'task_id': task.task_id})
-
-		else:
-			# print('this is the task status: %s'%task.state())
+			results = task.get()
 
 			zip_filename = 'Results.zip'
 
@@ -57,6 +55,10 @@ def home(request):
 			resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
 			return resp
+
+		else:
+			return render(request, "progress.html", context={'task_id': task.task_id})
+			
 
 	else:
 		return render(request, "index.html")
