@@ -37,10 +37,9 @@ def data_processing(self, file, filename):
 	    tmp_file = os.path.join(tmp_dir, 'something.zip')
 	    with open(tmp_file, 'wb') as file:
 	        file.write(file_bytes)
-	        file.close()
+	        # read the file before it closes.
+	        sorted_data = pd.read_excel(file, header = 0)
 
-	# filename = file.name.split('.')[0]
-	sorted_data = pd.read_excel(file, header = 0)
 	sorted_data = sorted_data.fillna(0)
 	print(sorted_data.columns)
 	sorted_data = sorted_data.rename(columns={'Glycans_x000D_\nPos.' : 'Glycans Pos.', 'Sequence\r\n(unformatted)': 'Sequence', 'Calc._x000D_\nMH' : 'Calc. MH', 'PEP_x000D_\n2D':'PEP 2D'})
