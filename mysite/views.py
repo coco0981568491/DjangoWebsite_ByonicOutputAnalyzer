@@ -31,13 +31,13 @@ def home(request):
 
 		# data_processing.delay(file_bytes_base64_str, filename)
 
-		# res = AsyncResult(task)
+		res = AsyncResult(task.task_id)
 
 		# task = test.delay(100)
 
 		# return render(request, "progress.html", context={'task_id': task.task_id})
 
-		print('this is the task status: %s'%task.state())
+		print('this is the task status: %s'%res.state())
 
 		# # check if the task has been finished
 		# if task.successful() == True: 
