@@ -16,20 +16,7 @@
 
 {% if task_id %}
 	<script type="text/javascript">
-		// function processSuccess(progressBarElement, progressBarMessageElement, result) {
-		// 	// Build Success URL (replace 'namespace' with your own)
-		// 	var success_url = "{% url 'mysite:download' task_id %}";
-		// 	// Redirect to URL
-		// 	window.location.replace(success_url)
-		// }
-
-		// // Progress Bar (JQuery)
-		// $(function () {
-		// 	var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
-		// 	CeleryProgressBar.initProgressBar(progressUrl, {
-		// 		onSuccess: processSuccess,
-		// 	})
-		// });
+		
 		// JQuery
 		var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
 
