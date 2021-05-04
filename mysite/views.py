@@ -29,10 +29,11 @@ def home(request):
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
 
+		task_id = task.task_id
+
 		# wait until task is ready, and return its result
-		status = task.status
-		print('###### this is the task status ######')
-		print(status)
+		status = task.AsyncResult(task_id).status
+		
 		# data_processing.delay(file_bytes_base64_str, filename)
 
 		# return render(request, "progress.html", context={'task_id': task.task_id})
@@ -55,7 +56,9 @@ def home(request):
 			# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
 			# return resp
-			return render(request, "test.html")
+			# return render(request, "test.html")
+			resp = HttpResponse("status is SUCCESS!")
+			return resp
 
 		else:
 			return render(request, "progress.html", context={'task_id': task.task_id})
