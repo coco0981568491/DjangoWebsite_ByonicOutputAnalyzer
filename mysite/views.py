@@ -38,7 +38,7 @@ def home(request):
 		# return render(request, "progress.html", context={'task_id': task.task_id})
 
 		# check if the task has been finished
-		if task.ready(): 
+		if task.successful(): 
 
 			# zip_filename = 'Results.zip'
 
