@@ -39,32 +39,28 @@ def home(request):
 		# return render(request, "progress.html", context={'task_id': task.task_id})
 
 		# print('this is the task status: %s'%task.status)
-
-		# # check if the task has been finished
-		if task.status == 'SUCCESS': 
-
-			# results = task.get()
-
-			# zip_filename = 'Results.zip'
-
-			# # convert results in base64 str back into bytes
-			# results_bytes_base64 = results.encode('utf-8')
-			# results_bytes = base64.b64decode(results_bytes_base64)
-			
-
-			# resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
-			# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
-
-			# return resp
-			# return render(request, "test.html")
-			resp = HttpResponse("status is SUCCESS!")
-			return resp
-
-		else:
-			return render(request, "progress.html", context={'task_id': task.task_id})
+		
+		return render(request, "progress.html", context={'task_id': task.task_id})
 			
 
 	else:
 		return render(request, "index.html")
 
 
+def download(request, task_id):
+	# results = task.get()
+
+	# zip_filename = 'Results.zip'
+
+	# # convert results in base64 str back into bytes
+	# results_bytes_base64 = results.encode('utf-8')
+	# results_bytes = base64.b64decode(results_bytes_base64)
+	
+
+	# resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
+	# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+
+	# return resp
+	# return render(request, "test.html")
+	resp = HttpResponse("status is SUCCESS!")
+	return resp

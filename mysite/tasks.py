@@ -2049,7 +2049,7 @@ def data_processing(self, file, filename):
 	# progress check 10
 	progress_recorder.set_progress(10, 10, 'Done! The processed results will be automatically downloaded :)')
 
-	print('send results to frontend...')
+	# print('send results to frontend...')
 
 	return value_base64_str
 
