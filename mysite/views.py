@@ -40,6 +40,8 @@ def home(request):
 		# check if the task has been finished
 		if task.successful(): 
 
+			print(task.state())
+
 			# zip_filename = 'Results.zip'
 
 			# # convert results in base64 str back into bytes
