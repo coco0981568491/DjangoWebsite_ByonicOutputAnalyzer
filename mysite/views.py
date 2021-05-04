@@ -40,7 +40,7 @@ def home(request):
 		# check if the task has been finished
 		if task.successful() == True: 
 
-			print(task.state())
+			print('this is the task status: %s'%task.state())
 
 			# zip_filename = 'Results.zip'
 
