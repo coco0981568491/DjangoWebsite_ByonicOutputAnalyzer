@@ -29,10 +29,10 @@ def home(request):
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
 
-		task_id = task.task_id
+		# task_id = task.task_id
 
 		# wait until task is ready, and return its result
-		status = task.status
+		# status = task.status
 		
 		# data_processing.delay(file_bytes_base64_str, filename)
 
@@ -41,7 +41,7 @@ def home(request):
 		# print('this is the task status: %s'%task.status)
 
 		# # check if the task has been finished
-		if status == 'SUCCESS': 
+		if task.status == 'SUCCESS': 
 
 			# results = task.get()
 
