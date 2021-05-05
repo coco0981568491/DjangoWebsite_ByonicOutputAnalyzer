@@ -32,7 +32,7 @@ def home(request):
 		# request.session['id'] = task.task_id
 		# request.session.modified = True
 
-		# task_id = task.task_id
+		task_id = task.task_id
 
 		# wait until task is ready, and return its result
 		# status = task.status
@@ -54,8 +54,8 @@ def download(request):
 
 	# task_id = request.session['id']
 
-	# results = AsyncResult(task_id).get()
-	# # results = task.get()
+	results = AsyncResult(task_id).get()
+	# results = task.get()
 
 	# zip_filename = 'Results.zip'
 
