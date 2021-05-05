@@ -6,7 +6,6 @@ from io import BytesIO
 import base64
 import os
 
-get_id = None
 # Create your views here.
 def home(request):
 
