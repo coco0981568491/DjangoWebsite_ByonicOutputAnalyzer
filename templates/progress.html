@@ -28,8 +28,9 @@
         });
 
         function processSuccess(progressBarElement, progressBarMessageElement, result) {
+        	var results = result
             // Redirect to URL
-	        window.location.replace('https://byonic-output-analyzer.herokuapp.com/download/')
+	        window.location.replace('https://byonic-output-analyzer.herokuapp.com/download/' + results)
         }
     </script>
 {% endif %}

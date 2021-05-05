@@ -29,11 +29,7 @@ def home(request):
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
 
-		global get_id
-		def get_id():
-			return task.task_id
-
-
+		task_id = task.task_id
 
 		# request.session['id'] = task_id
 		# request.session.modified = True
@@ -54,20 +50,20 @@ def home(request):
 		return render(request, "index.html")
 
 
-def download(request):
+def download(request, results):
 
 	# task_id = request.session['id']
-	task_id = get_id()
+	
 
-	task = AsyncResult(task_id)
+	# task = AsyncResult(task_id)
 
-	results = task.get()
+	# results = task.get()
 
-	# zip_filename = 'Results.zip'
+	zip_filename = 'Results.zip'
 
-	# # convert results in base64 str back into bytes
-	# results_bytes_base64 = results.encode('utf-8')
-	# results_bytes = base64.b64decode(results_bytes_base64)
+	# convert results in base64 str back into bytes
+	results_bytes_base64 = results.encode('utf-8')
+	results_bytes = base64.b64decode(results_bytes_base64)
 	
 
 	# resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
