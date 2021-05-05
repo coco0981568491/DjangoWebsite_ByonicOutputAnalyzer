@@ -6,8 +6,7 @@ from io import BytesIO
 import base64
 import os
 
-
-id_lst = []
+get_id = None
 # Create your views here.
 def home(request):
 
@@ -30,9 +29,14 @@ def home(request):
 
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
-		task_id = task.task_id
 
-		request.session['id'] = task_id
+		global get_id
+		def get_id():
+			return task.task_id
+
+
+
+		# request.session['id'] = task_id
 		# request.session.modified = True
 
 		# wait until task is ready, and return its result
@@ -53,7 +57,8 @@ def home(request):
 
 def download(request):
 
-	task_id = request.session['id']
+	# task_id = request.session['id']
+	task_id = get_id()
 
 	task = AsyncResult(task_id)
 
