@@ -15,24 +15,24 @@
 
 
 
-	<script>
-		
-	// vanilla JS version
-	document.addEventListener("DOMContentLoaded", function () {
-		var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
-		CeleryProgressBar.initProgressBar(progressUrl);
-
-		function processSuccess(progressBarElement, progressBarMessageElement, result) {
-        // Redirect to URL
-        window.location.replace('https://byonic-output-analyzer.herokuapp.com/download/')
-    }
 
 
-	});
+{% if task_id %}
+    <script type="text/javascript">
+        // vanilla JS version
+		document.addEventListener("DOMContentLoaded", function () {
+            var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
+            CeleryProgressBar.initProgressBar(progressUrl, {
+                    onSuccess: processSuccess,
+                })
+        });
 
-	
-	</script>
-
+        function processSuccess(progressBarElement, progressBarMessageElement, result) {
+            // Redirect to URL
+	        window.location.replace('https://byonic-output-analyzer.herokuapp.com/download/')
+        }
+    </script>
+{% endif %}
 
 
 </body>	
