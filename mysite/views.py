@@ -29,6 +29,8 @@ def home(request):
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
 
+		request.session['task_id'] = task.task_id
+
 		# task_id = task.task_id
 
 		# wait until task is ready, and return its result
@@ -47,20 +49,24 @@ def home(request):
 		return render(request, "index.html")
 
 
-def download(request, task_id):
+def download(request):
+
+	task_id = request.session.get('task_id')
+
+	results = AsyncResult(task_id).get()
 	# results = task.get()
 
-	# zip_filename = 'Results.zip'
+	zip_filename = 'Results.zip'
 
-	# # convert results in base64 str back into bytes
-	# results_bytes_base64 = results.encode('utf-8')
-	# results_bytes = base64.b64decode(results_bytes_base64)
+	# convert results in base64 str back into bytes
+	results_bytes_base64 = results.encode('utf-8')
+	results_bytes = base64.b64decode(results_bytes_base64)
 	
 
-	# resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
-	# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+	resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
+	resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
-	# return resp
-	# return render(request, "test.html")
-	resp = HttpResponse("status is SUCCESS!")
 	return resp
+	# # return render(request, "test.html")
+	# resp = HttpResponse("status is SUCCESS!")
+	# return resp
