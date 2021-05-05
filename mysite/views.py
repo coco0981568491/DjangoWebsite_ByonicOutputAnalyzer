@@ -54,7 +54,7 @@ def home(request):
 def download(request):
 
 	# task_id = request.session['id']
-	task_id = current_task.request.id
+	task_id = app.current_task.request.id
 
 	results = AsyncResult(task_id).get()
 	# results = task.get()
