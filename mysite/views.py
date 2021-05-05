@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from .tasks import data_processing
 from .tasks import test
 from celery.result import AsyncResult
+from celery import current_task
 from io import BytesIO
 import base64
 import os
@@ -53,7 +54,7 @@ def home(request):
 def download(request):
 
 	# task_id = request.session['id']
-	task_id = task.task_id
+	task_id = current_task.request.id
 
 	results = AsyncResult(task_id).get()
 	# results = task.get()
