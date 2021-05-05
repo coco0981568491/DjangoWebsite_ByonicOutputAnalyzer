@@ -2051,7 +2051,7 @@ def data_processing(self, file, filename):
 
 	# print('send results to frontend...')
 
-	return value_base64_str
+	return value
 
 @shared_task(bind=True)
 def test(self, seconds):
