@@ -30,6 +30,7 @@ def home(request):
 		task = data_processing.delay(file, filename)
 
 		request.session['id'] = task.task_id
+		request.session.modified = True
 
 		# task_id = task.task_id
 
