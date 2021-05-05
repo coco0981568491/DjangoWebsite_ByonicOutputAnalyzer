@@ -30,13 +30,10 @@ def home(request):
 
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
-
-		# request.session['id'] = task.task_id
-		# request.session.modified = True
-
 		task_id = task.task_id
 
-		id_lst.append(task_id)
+		request.session['id'] = task_id
+		# request.session.modified = True
 
 		# wait until task is ready, and return its result
 		# status = task.status
@@ -56,9 +53,11 @@ def home(request):
 
 def download(request):
 
-	task_id = id_lst[0]
+	task_id = request.session['id']
 
-	results = AsyncResult(task_id).get()
+	task = AsyncResult(task_id)
+
+	results = task.get()
 
 	# zip_filename = 'Results.zip'
 
