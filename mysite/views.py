@@ -29,8 +29,8 @@ def home(request):
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
 
-		request.session['id'] = task.task_id
-		request.session.modified = True
+		# request.session['id'] = task.task_id
+		# request.session.modified = True
 
 		# task_id = task.task_id
 
