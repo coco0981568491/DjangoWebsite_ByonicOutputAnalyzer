@@ -29,7 +29,7 @@ def home(request):
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
 
-		request.session['task_id'] = task.task_id
+		request.session['id'] = task.task_id
 
 		# task_id = task.task_id
 
@@ -51,7 +51,7 @@ def home(request):
 
 def download(request):
 
-	task_id = request.session.get('task_id')
+	task_id = request.session['id']
 
 	results = AsyncResult(task_id).get()
 	# results = task.get()
