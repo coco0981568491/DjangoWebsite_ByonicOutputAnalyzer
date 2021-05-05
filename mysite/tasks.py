@@ -2062,3 +2062,4 @@ def test(self, seconds):
         result += i
         progress_recorder.set_progress(i + 1, seconds)
     return result 
+
