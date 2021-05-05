@@ -71,5 +71,3 @@ def download(request, results):
 
 	return resp
 	# return render(request, "test.html")
-	# resp = HttpResponse("status is SUCCESS!")
-	# return resp
