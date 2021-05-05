@@ -29,9 +29,11 @@ def data_processing(self, file, filename):
 	progress_recorder.set_progress(0.5, 10, 'Still processing...')
 
 	# main function
-	file_bytes_base64 = file.encode('utf-8')
-	file_bytes = base64.b64decode(file_bytes_base64)
+	# file_bytes_base64 = file.encode('utf-8')
+	# file_bytes = base64.b64decode(file_bytes_base64)
 
+	file_bytes = file.encode('utf-8')
+	
 	# Write the file to a temporary location, deletion is guaranteed
 	# with tempfile.TemporaryDirectory() as tmp_dir:
 	#     tmp_file = os.path.join(tmp_dir, 'something.zip')
@@ -2042,16 +2044,16 @@ def data_processing(self, file, filename):
 	# value here is bytes
 	value = zip_buffer.getvalue()
 
-	# # convert bytes back to base64 to serialize by kombu
-	# value_base64 = base64.b64encode(value)
-	# value_base64_str = value_base64.decode('utf-8') # this is a str
+	# convert bytes back to base64 to serialize by kombu
+	value_base64 = base64.b64encode(value)
+	value_base64_str = value_base64.decode('utf-8') # this is a str
 
 	# progress check 10
 	progress_recorder.set_progress(10, 10, 'Done! The processed results will be automatically downloaded :)')
 
 	# print('send results to frontend...')
 
-	return value
+	return value_base64_str
 
 @shared_task(bind=True)
 def test(self, seconds):
