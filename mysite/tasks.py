@@ -472,7 +472,7 @@ def data_processing(self, file, filename):
 	#print('this is the len of glycan_data_remain: %s'%len(glycan_data_remain))
 
 	# progress check 5
-	progress_recorder.set_progress(5.5, 10, 'This will take some time, please wait...')
+	# progress_recorder.set_progress(5.5, 10, 'This will take some time, please wait...')
 
 	#### SORTING STARTS: the double (multi) sites should be singled out to perform another set of classification method. ####
 	to_remain_ind = 0
