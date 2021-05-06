@@ -51,16 +51,16 @@ def home(request):
 
 def download(request):
 
-	# results = task_success_handler()
+	results = task_success_handler()
 
-	task_id = task_success_handler()
+	# task_id = task_success_handler()
 
 	# task_id = request.session['id']
 	
 
-	task = AsyncResult(task_id)
+	# task = AsyncResult(task_id)
 
-	results = task.get()
+	# results = task.get()
 
 	# convert results in base64 str back into bytes
 	results_bytes_base64 = results.encode('utf-8')
