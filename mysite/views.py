@@ -30,8 +30,8 @@ def home(request):
 
 		# task_id = task.task_id
 
-		# request.session['id'] = task_id
-		# request.session.modified = True
+		request.session['id'] = task_id
+		request.session.modified = True
 
 		# wait until task is ready, and return its result
 		# status = task.status
@@ -53,14 +53,14 @@ def download(request):
 
 	# results = task_success_handler()
 
-	results = task_success_handler(data_processing)
-
-	# task_id = request.session['id']
 	
 
-	# task = AsyncResult(task_id)
+	task_id = request.session['id']
+	
 
-	# results = task.get()
+	task = AsyncResult(task_id)
+
+	results = task.get()
 
 	# convert results in base64 str back into bytes
 	results_bytes_base64 = results.encode('utf-8')

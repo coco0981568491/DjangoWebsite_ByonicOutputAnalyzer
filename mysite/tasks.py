@@ -2065,8 +2065,4 @@ def test(self, seconds):
     return result 
 
 
-# signals
-
-@task_success.connect
-def task_success_handler(sender, **kwargs):
-    return sender
+#
