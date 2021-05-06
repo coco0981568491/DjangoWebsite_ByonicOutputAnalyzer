@@ -1,12 +1,12 @@
 from django.shortcuts import render, HttpResponse
 from .tasks import data_processing
 from .tasks import test
+from .tasks import task_success_handler
 from celery.result import AsyncResult
 from io import BytesIO
 import base64
 import os
-from .signals import task_success_handler 
-
+ 
 # Create your views here.
 def home(request):
 
@@ -77,3 +77,4 @@ def download(request):
 	# return render(request, "test.html")
 
 	# return HttpResponse('<h1>Result: {}</h1>'.format(results))
+

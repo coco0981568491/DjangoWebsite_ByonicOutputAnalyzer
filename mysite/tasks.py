@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from celery_progress.backend import ProgressRecorder
+from celery.signals import task_success
 import zipfile
 from pptx import Presentation
 from pptx.util import Inches
@@ -2063,3 +2064,9 @@ def test(self, seconds):
         progress_recorder.set_progress(i + 1, seconds)
     return result 
 
+
+# signals
+
+@task_success.connect(sender='mysite.tasks.data_processing')
+def task_success_handler(sender, result, **kwargs):
+    return result
