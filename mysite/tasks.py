@@ -23,13 +23,12 @@ import tempfile
 @shared_task(bind = True)
 def data_processing(self, file, filename):
 
-	# get task id from within
-	task_id = self.request.id
+	
 	# record progress info
 	progress_recorder = ProgressRecorder(self)
 
 	# progress check 0
-	progress_recorder.set_progress(0.5, 10, 'Still processing...')
+	progress_recorder.set_progress(1, 10, 'Still processing...')
 
 	# main function
 	file_bytes_base64 = file.encode('utf-8')
@@ -62,7 +61,7 @@ def data_processing(self, file, filename):
 	# print(sorted_data_scoreHightoLow_score200_pep2d0001.shape)
 	
 	# progress check 1
-	progress_recorder.set_progress(1, 10, 'Still processing...')
+	progress_recorder.set_progress(1.5, 10, 'Still processing...')
 
 	aa_for_N_sequon = ['A','R', 'N', 'D', 'B', 'C', 'E', 'Q', 'Z', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'S', 'T', 'W', 'Y', 'V']
 	seq_count = 0
@@ -2052,7 +2051,8 @@ def data_processing(self, file, filename):
 	# progress check 10
 	progress_recorder.set_progress(10, 10, 'Done! The processed results will be automatically downloaded :)')
 
-	# print('send results to frontend...')
+	# get task id from within
+	task_id = self.request.id
 
 	return task_id, value_base64_str
 
