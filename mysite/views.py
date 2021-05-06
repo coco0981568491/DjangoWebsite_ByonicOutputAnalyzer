@@ -5,6 +5,7 @@ from celery.result import AsyncResult
 from io import BytesIO
 import base64
 import os
+from .signals import task_success_handler 
 
 # Create your views here.
 def home(request):
@@ -21,18 +22,13 @@ def home(request):
 		# This allows me to send the file directly through Celery.
 
 		file_bytes = file.read()
-		# file_bytes_base64 = base64.b64encode(file_bytes)
-		# file = file_bytes_base64.decode('utf-8') # this is a str
-
-		file = file_bytes.decode('utf-8') # this is a str by directly decoding bytes with utf-8
-
-
-		
+		file_bytes_base64 = base64.b64encode(file_bytes)
+		file = file_bytes_base64.decode('utf-8') # this is a str
 
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
 
-		task_id = task.task_id
+		# task_id = task.task_id
 
 		# request.session['id'] = task_id
 		# request.session.modified = True
@@ -53,7 +49,9 @@ def home(request):
 		return render(request, "index.html")
 
 
-def download(request, results):
+def download(request):
+
+	results = task_success_handler()
 
 	# task_id = request.session['id']
 	
@@ -62,17 +60,18 @@ def download(request, results):
 
 	# results = task.get()
 
-	# zip_filename = 'Results.zip'
+	# convert results in base64 str back into bytes
+	results_bytes_base64 = results.encode('utf-8')
+	results_bytes = base64.b64decode(results_bytes_base64)
 
-	# # convert results in base64 str back into bytes
-	# results_bytes_base64 = results.encode('utf-8')
-	# results_bytes = base64.b64decode(results_bytes_base64)
+
+	zip_filename = 'Results.zip'
 	
 
-	# resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
-	# resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
+	resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
+	resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
-	# return resp
+	return resp
 	# return render(request, "test.html")
 
-	return HttpResponse('<h1>Result: {}</h1>'.format(results))
+	# return HttpResponse('<h1>Result: {}</h1>'.format(results))

@@ -5,5 +5,5 @@ from django.conf import settings
 
 urlpatterns = [
     path('', home),
-    path('download/<results>', download, name = 'download'),
+    path('download/', download, name = 'download'),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
