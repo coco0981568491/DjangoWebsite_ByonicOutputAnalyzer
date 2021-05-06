@@ -2067,6 +2067,6 @@ def test(self, seconds):
 
 # signals
 
-@task_success.connect(sender='mysite.tasks.data_processing')
+@task_success.connect
 def task_success_handler(sender, **kwargs):
     return sender.request.id
