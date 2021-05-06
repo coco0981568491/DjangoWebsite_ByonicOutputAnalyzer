@@ -53,7 +53,7 @@ def download(request):
 
 	# results = task_success_handler()
 
-	task_id = task_success_handler('mysite.tasks.data_processing')
+	task_id = task_success_handler(mysite.tasks.data_processing)
 
 	# task_id = request.session['id']
 	
