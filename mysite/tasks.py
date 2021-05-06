@@ -2069,4 +2069,4 @@ def test(self, seconds):
 
 @task_success.connect
 def task_success_handler(sender, **kwargs):
-    return sender.request.id
+    return sender.task_id
