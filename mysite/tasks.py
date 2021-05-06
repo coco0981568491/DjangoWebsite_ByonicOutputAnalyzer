@@ -23,6 +23,8 @@ import tempfile
 @shared_task(bind = True)
 def data_processing(self, file, filename):
 
+	# get task id from within
+	task_id = self.request.id
 	# record progress info
 	progress_recorder = ProgressRecorder(self)
 
@@ -2052,7 +2054,7 @@ def data_processing(self, file, filename):
 
 	# print('send results to frontend...')
 
-	return value_base64_str
+	return task_id, value_base64_str
 
 @shared_task(bind=True)
 def test(self, seconds):
@@ -2063,6 +2065,3 @@ def test(self, seconds):
         result += i
         progress_recorder.set_progress(i + 1, seconds)
     return result 
-
-
-#

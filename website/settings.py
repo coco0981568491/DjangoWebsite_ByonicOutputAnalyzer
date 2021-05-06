@@ -163,12 +163,12 @@ app.conf.update(BROKER_URL='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851a
                 CELERY_RESULT_BACKEND='redis://:p8d4eb3a43ddd9a00cf4024e7ee94b80f52d92f851aa85788f881daaeda71dd7b@ec2-54-80-245-74.compute-1.amazonaws.com:6929')
 
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'my_cache_table',
-        'TIMEOUT': 1209600,
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',
+#         'TIMEOUT': 1209600,
+#     }
+# }
 
-SESSION_ENGINE= 'django.contrib.sessions.backends.cached_db'
+# SESSION_ENGINE= 'django.contrib.sessions.backends.cached_db'

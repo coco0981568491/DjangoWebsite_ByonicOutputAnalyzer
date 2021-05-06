@@ -49,18 +49,18 @@ def home(request):
 		return render(request, "index.html")
 
 
-def download(request):
+def download(request, task_id):
 
 	# results = task_success_handler()
 
-	
-
-	task_id = request.session['id']
+	# task_id = request.session['id']
 	
 
 	task = AsyncResult(task_id)
 
-	results = task.get()
+	results_tuple = task.get()
+
+	results = results_tuple[1]
 
 	# convert results in base64 str back into bytes
 	results_bytes_base64 = results.encode('utf-8')
