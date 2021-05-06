@@ -60,9 +60,6 @@ def data_processing(self, file, filename):
 	# print('The original data size:')
 	# print(sorted_data_scoreHightoLow_score200_pep2d0001.shape)
 	
-	# progress check 1
-	progress_recorder.set_progress(1.5, 10, 'Still processing...')
-
 	aa_for_N_sequon = ['A','R', 'N', 'D', 'B', 'C', 'E', 'Q', 'Z', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'S', 'T', 'W', 'Y', 'V']
 	seq_count = 0
 	delete_ind = []
@@ -177,7 +174,7 @@ def data_processing(self, file, filename):
 	#print('this is new_glyco_site: %s'%new_glyco_site)
 
 	# progress check 2
-	progress_recorder.set_progress(2, 10, 'Still processing...')
+	progress_recorder.set_progress(3, 10, 'Still processing...')
 
 	##add a column called 'glycosylation site' for real glycan positions. (pos. number + glycan posi)
 	glycan_posi_lst = sorted_data_scoreHightoLow_score200_pep2d0001['Glycans Pos.'].tolist()
@@ -353,7 +350,7 @@ def data_processing(self, file, filename):
 	#sorted_data_scoreHightoLow_score200_pep2d0001_difMH.to_excel('%s_scoreHightoLow_score200_pep2d0001_AddPSMdifMH.xlsx'%filename, index = False)
 
 	# progress check 4
-	progress_recorder.set_progress(4, 10, 'This will take some time, please wait...')
+	progress_recorder.set_progress(5, 10, 'This will take some time, please wait...')
 
 	# print('\nStep3: Start glycan type analysis.')
 	glycans = sorted_data_scoreHightoLow_score200_pep2d0001_difMH['Glycans'].tolist()
@@ -475,7 +472,7 @@ def data_processing(self, file, filename):
 	#print('this is the len of glycan_data_remain: %s'%len(glycan_data_remain))
 
 	# progress check 5
-	progress_recorder.set_progress(5, 10, 'This will take some time, please wait...')
+	progress_recorder.set_progress(5.5, 10, 'This will take some time, please wait...')
 
 	#### SORTING STARTS: the double (multi) sites should be singled out to perform another set of classification method. ####
 	to_remain_ind = 0

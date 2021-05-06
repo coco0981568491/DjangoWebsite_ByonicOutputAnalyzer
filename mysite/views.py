@@ -13,7 +13,8 @@ def home(request):
 
 		# get data and name it as file for convenience 
 		file = request.FILES["myFile"]
-		filename = file.name
+		filename = file.name.split('.')[0]
+
 
 		# Celery does not know how to serialize complex objects such as file objects. 
 		# However, this can be solved pretty easily. 
