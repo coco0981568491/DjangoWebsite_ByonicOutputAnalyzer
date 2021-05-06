@@ -29,8 +29,8 @@ def home(request):
 
 		# task_id = task.task_id
 
-		request.session['id'] = task_id
-		request.session.modified = True
+		# request.session['id'] = task_id
+		# request.session.modified = True
 
 		# wait until task is ready, and return its result
 		# status = task.status
