@@ -28,7 +28,7 @@ def data_processing(self, file, filename):
 	progress_recorder = ProgressRecorder(self)
 
 	# progress check 0
-	progress_recorder.set_progress(1, 10, 'Still processing...')
+	progress_recorder.set_progress(2, 10, 'Still processing...')
 
 	# main function
 	file_bytes_base64 = file.encode('utf-8')
@@ -272,7 +272,7 @@ def data_processing(self, file, filename):
 	sorted_data_scoreHightoLow_score200_pep2d0001.insert(2, 'Glycosylation Site', glycosylation_site, True)
 
 	# progress check 3
-	progress_recorder.set_progress(3, 10, 'Still processing...')
+	progress_recorder.set_progress(4, 10, 'Still processing...')
 
 	#display(HTML(sorted_data_scoreHightoLow_score200_pep2d0001.to_html()))
 
