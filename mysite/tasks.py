@@ -2042,18 +2042,16 @@ def data_processing(self, file, filename):
 	# value here is bytes
 	value = zip_buffer.getvalue()
 
-	# # convert bytes back to base64 to serialize by kombu
-	# value_base64 = base64.b64encode(value)
-	# value_base64_str = value_base64.decode('utf-8') # this is a str
-
-	value_str = value.decode('utf-8') # this is a str
+	# convert bytes back to base64 to serialize by kombu
+	value_base64 = base64.b64encode(value)
+	value_base64_str = value_base64.decode('utf-8') # this is a str
 
 	# progress check 10
 	progress_recorder.set_progress(10, 10, 'Done! The processed results will be automatically downloaded :)')
 
 	# print('send results to frontend...')
 
-	return value_str
+	return value_base64_str
 
 @shared_task(bind=True)
 def test(self, seconds):
