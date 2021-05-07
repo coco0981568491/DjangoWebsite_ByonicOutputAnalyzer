@@ -1,6 +1,5 @@
 from django.shortcuts import render, HttpResponse
 from .tasks import data_processing
-from .tasks import test
 from celery.result import AsyncResult
 from io import BytesIO
 import base64
