@@ -58,6 +58,8 @@ def download(request, task_id):
 	resp = HttpResponse(results_bytes, content_type = 'application/x-zip-compressed')
 	resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
+	
+
 	return resp
 
 	# return HttpResponse('<h1>Result: {}</h1>'.format(results))

@@ -95,6 +95,11 @@ def data_processing(self, file, filename):
 	sorted_data_scoreHightoLow_score200_pep2d0001 = sorted_data_scoreHightoLow_score200_pep2d0001.reset_index(drop=True)
 	# print('Data size after deletion:')
 	# print(sorted_data_scoreHightoLow_score200_pep2d0001.shape)
+
+	# progress check 2
+	progress_recorder.set_progress(30, 100, 'Still processing...')
+
+	
 	sequon_lst = [sequon[0] if len(sequon) == 1 else sequon for sequon in sequon_lst if len(sequon) != 0]
 	#print('this is sequon_lst: %s'%sequon_lst)
 	# print('sequon length: %s'%len(sequon_lst))
@@ -168,8 +173,7 @@ def data_processing(self, file, filename):
 	new_glyco_site = sum(new_glyco_site, [])
 	#print('this is new_glyco_site: %s'%new_glyco_site)
 
-	# progress check 2
-	progress_recorder.set_progress(30, 100, 'Still processing...')
+	
 
 	##add a column called 'glycosylation site' for real glycan positions. (pos. number + glycan posi)
 	glycan_posi_lst = sorted_data_scoreHightoLow_score200_pep2d0001['Glycans Pos.'].tolist()
