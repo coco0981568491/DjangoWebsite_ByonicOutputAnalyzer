@@ -28,20 +28,6 @@ def home(request):
 		# (...send string through Celery...)
 		task = data_processing.delay(file, filename)
 
-		# task_id = task.task_id
-
-		# request.session['id'] = task_id
-		# request.session.modified = True
-
-		# wait until task is ready, and return its result
-		# status = task.status
-		
-		# data_processing.delay(file_bytes_base64_str, filename)
-
-		# return render(request, "progress.html", context={'task_id': task.task_id})
-
-		# print('this is the task status: %s'%task.status)
-		
 		return render(request, "progress.html", context={'task_id': task.task_id})
 			
 
@@ -74,7 +60,6 @@ def download(request, task_id):
 	resp['Content-Disposition'] = 'attachment; filename=%s'%zip_filename
 
 	return resp
-	# return render(request, "test.html")
 
 	# return HttpResponse('<h1>Result: {}</h1>'.format(results))
 

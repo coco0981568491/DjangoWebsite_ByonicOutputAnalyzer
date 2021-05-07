@@ -20,6 +20,7 @@ from time import sleep
 import base64
 import tempfile
 
+# data_processsing is for n-glycan analysis
 @shared_task(bind = True)
 def data_processing(self, file, filename):
 
@@ -28,17 +29,11 @@ def data_processing(self, file, filename):
 	progress_recorder = ProgressRecorder(self)
 
 	# progress check 0
-	progress_recorder.set_progress(2, 10, 'Still processing...')
+	progress_recorder.set_progress(20, 100, 'Still processing...')
 
-	# main function
+	# data conversion
 	file_bytes_base64 = file.encode('utf-8')
 	file_bytes = base64.b64decode(file_bytes_base64)
-
-	# Write the file to a temporary location, deletion is guaranteed
-	# with tempfile.TemporaryDirectory() as tmp_dir:
-	#     tmp_file = os.path.join(tmp_dir, 'something.zip')
-	#     with open(tmp_file, 'wb') as file:
-	#         file.write(file_bytes)
 
 	# write the file to bytesio & read in as dataframe
 	sorted_data = pd.read_excel(BytesIO(file_bytes), header = 0)
@@ -174,7 +169,7 @@ def data_processing(self, file, filename):
 	#print('this is new_glyco_site: %s'%new_glyco_site)
 
 	# progress check 2
-	progress_recorder.set_progress(3, 10, 'Still processing...')
+	progress_recorder.set_progress(30, 100, 'Still processing...')
 
 	##add a column called 'glycosylation site' for real glycan positions. (pos. number + glycan posi)
 	glycan_posi_lst = sorted_data_scoreHightoLow_score200_pep2d0001['Glycans Pos.'].tolist()
@@ -272,7 +267,7 @@ def data_processing(self, file, filename):
 	sorted_data_scoreHightoLow_score200_pep2d0001.insert(2, 'Glycosylation Site', glycosylation_site, True)
 
 	# progress check 3
-	progress_recorder.set_progress(4, 10, 'Still processing...')
+	progress_recorder.set_progress(40, 100, 'Still processing...')
 
 	#display(HTML(sorted_data_scoreHightoLow_score200_pep2d0001.to_html()))
 
@@ -350,7 +345,7 @@ def data_processing(self, file, filename):
 	#sorted_data_scoreHightoLow_score200_pep2d0001_difMH.to_excel('%s_scoreHightoLow_score200_pep2d0001_AddPSMdifMH.xlsx'%filename, index = False)
 
 	# progress check 4
-	progress_recorder.set_progress(5, 10, 'This will take some time, please wait...')
+	progress_recorder.set_progress(50, 100, 'This will take some time, please wait...')
 
 	# print('\nStep3: Start glycan type analysis.')
 	glycans = sorted_data_scoreHightoLow_score200_pep2d0001_difMH['Glycans'].tolist()
@@ -645,7 +640,7 @@ def data_processing(self, file, filename):
 	# print('\nFile exported.')
 
 	# progress check 6
-	progress_recorder.set_progress(6, 10, 'Almost there...')
+	progress_recorder.set_progress(60, 100, 'Almost there...')
 
 	# print('\nStep4: Summary of the glycan type composition within each site.')
 	glycosylation_site = sorted_data_scoreHightoLow_score200_pep2d0001_difMH['Glycosylation Site'].tolist()
@@ -783,7 +778,7 @@ def data_processing(self, file, filename):
 
 
 	# progress check 7
-	progress_recorder.set_progress(7, 10, 'Almost there...')
+	progress_recorder.set_progress(70, 100, 'Almost there...')
 
 	##start plotting.
 	## PLOT BAR & PIE COMBINED CHARTS FIRST.
@@ -1343,7 +1338,7 @@ def data_processing(self, file, filename):
 	# print('\nStep6: Export Pie & Bar charts as .png files.')
 
 	# progress check 8
-	progress_recorder.set_progress(8, 10, 'Almost there...')
+	progress_recorder.set_progress(80, 100, 'Almost there...')
 
 	# save plt to bytesio
 	in_memory_fp0 = BytesIO()
@@ -1514,7 +1509,7 @@ def data_processing(self, file, filename):
 	    # filenames.append('%s_PieCharts.png'%filename)
 
 	    # progress check 9
-	    progress_recorder.set_progress(9, 10, 'Almost there...')
+	    progress_recorder.set_progress(90, 100, 'Almost there...')
 
 	    number_of_sites_inrow = 4
 	    full_row_num = len(original_bar_size)//number_of_sites_inrow
@@ -2046,7 +2041,7 @@ def data_processing(self, file, filename):
 	value_base64_str = value_base64.decode('utf-8') # this is a str
 
 	# progress check 10
-	progress_recorder.set_progress(10, 10, 'Done! The processed results will be automatically downloaded :)')
+	progress_recorder.set_progress(100, 100, 'Done! The processed results will be automatically downloaded :)')
 
 	# get task id from within
 	task_id = self.request.id
@@ -2054,11 +2049,15 @@ def data_processing(self, file, filename):
 	return task_id, value_base64_str
 
 @shared_task(bind=True)
-def test(self, seconds):
-    progress_recorder = ProgressRecorder(self)
-    result = 0
-    for i in range(seconds):
-        sleep(1)
-        result += i
-        progress_recorder.set_progress(i + 1, seconds)
-    return result 
+def sulfated_site(self, file, filename):
+
+	# ...
+
+	return task_id, value_base64_str 
+
+@shared_task(bind=True)
+def o_glycan(self, file, filename):
+
+	# ...
+
+	return task_id, value_base64_str
