@@ -734,7 +734,7 @@ def data_processing(self, file, filename):
 	                multi_highman += psm[psm_count]*2
 	                psm_count += 1
 	            elif glycan[4] == 'Multi Site [count PSM twice]: Hybrid/Complex':
-	                multi_highman += psm[psm_count]*2
+	                multi_complex_hybrid += psm[psm_count]*2
 	                psm_count += 1
 	        elif glycan == 0: #unoccupied
 	            unoccupied += psm[psm_count]
